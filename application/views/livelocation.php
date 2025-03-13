@@ -77,7 +77,6 @@ if ($this->uri->segment(3)) {
             const speed = calculateSpeedKnots(item.latlng[1].latitude, item.latlng[1].longitude, new Date(item.latlng[1].timestamp), item.latlng[0].latitude, item.latlng[0].longitude, new Date(item.latlng[0].timestamp));
             const index_head = (Bearing / 45).toFixed(0) <= 7 ? (Bearing / 45).toFixed(0) : 0;
             update_location(item.latitude, item.longitude, item.esnName, item.esn, index_head, speed, Bearing);
-
         })
 
     }

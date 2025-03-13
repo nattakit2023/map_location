@@ -94,7 +94,7 @@ class Restrict extends CI_Controller
         $restrictevents = $this->restrict_model->get_restrictevents();
         if (!empty($geofenceevents)) {
             foreach ($restrictevents as $key => $resdata) {
-                $data = $this->db->select('res_name')->from('restrict')->where('res_id', $resdata['res_res_id'])->get()->result_array();
+                $data = $this->db->select('res_name')->from('restrict_area')->where('res_id', $resdata['res_res_id'])->get()->result_array();
                 if (isset($data[0]['res_name'])) {
                     $returndata[] = $resdata;
                     $returndata[$key]['res_name'] = $data[0]['res_name'];

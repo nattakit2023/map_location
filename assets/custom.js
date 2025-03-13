@@ -482,7 +482,6 @@ function calculateHeading(latitude1, longitude1, latitude2, longitude2) {
   // Calculate heading (bearing)
   // let heading = (Math.atan2(x, y) % (2 * Math.PI)) * (180 / Math.PI);
   let Z = Math.atan2(y, x);
-  console.log(Z)
   let heading = ((Z * 180) / Math.PI + 360) % 360;
 
   // Ensure heading is positive

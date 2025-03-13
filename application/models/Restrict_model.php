@@ -47,7 +47,7 @@ class Restrict_model extends CI_Model
         if ($limit) {
             $this->db->limit($limit);
         }
-        $this->db->order_by('res_id', 'DESC');
+        $this->db->order_by('res_e_id', 'DESC');
         $query = $this->db->get();
         return $query->result_array();
     }

@@ -19,69 +19,51 @@
    <!-- /.container-fluid -->
 </div>
 <!-- Main content -->
-<section class="content">
+<!-- <section class="content">
    <div class="container-fluid">
-      <!-- Info boxes -->
       <div class="row">
          <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box">
                <span class="info-box-icon theme-bg-default elevation-1"><i class="fas fa-ship text-white"></i></span>
                <div class="info-box-content">
                   <span class="info-box-text">Total Vessel</span>
-                  <span class="info-box-number"><?= ($dashboard['tot_vehicles']!='') ? $dashboard['tot_vehicles']:'0' ?>  </span>
+                  <span class="info-box-number"><?= ($dashboard['tot_vehicles'] != '') ? $dashboard['tot_vehicles'] : '0' ?>  </span>
                </div>
-               <!-- /.info-box-content -->
             </div>
-            <!-- /.info-box -->
          </div>
-         <!-- /.col -->
          <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box mb-3">
                <span class="info-box-icon bg-success elevation-1"><i class="fa fa-user-secret"></i></span>
                <div class="info-box-content">
                   <span class="info-box-text">Total Online</span>
-                  <span class="info-box-number"><?= ($dashboard['tot_drivers']!='') ? $dashboard['tot_drivers']:'0' ?> </span>
+                  <span class="info-box-number"><?= ($dashboard['tot_drivers'] != '') ? $dashboard['tot_drivers'] : '0' ?> </span>
                </div>
-               <!-- /.info-box-content -->
             </div>
-            <!-- /.info-box -->
          </div>
-         <!-- /.col -->
-         <!-- fix for small devices only -->
          <div class="clearfix hidden-md-up"></div>
          <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box mb-3">
                <span class="info-box-icon bg-warning elevation-1"><i class="fa fa-user text-white"></i></span>
                <div class="info-box-content">
                   <span class="info-box-text">Total Customer</span>
-                  <span class="info-box-number"><?= ($dashboard['tot_customers']!='') ? $dashboard['tot_customers']:'0' ?> </span>
+                  <span class="info-box-number"><?= ($dashboard['tot_customers'] != '') ? $dashboard['tot_customers'] : '0' ?> </span>
                </div>
-               <!-- /.info-box-content -->
             </div>
-            <!-- /.info-box -->
          </div>
-         <!-- /.col -->
          <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box mb-3">
                <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-id-card"></i></span>
                <div class="info-box-content">
                   <span class="info-box-text">Today Trips</span>
-                  <span class="info-box-number"><?= ($dashboard['tot_today_trips']!='') ? $dashboard['tot_today_trips']:'0' ?></span>
+                  <span class="info-box-number"><?= ($dashboard['tot_today_trips'] != '') ? $dashboard['tot_today_trips'] : '0' ?></span>
                </div>
-               <!-- /.info-box-content -->
             </div>
-            <!-- /.info-box -->
          </div>
-         <!-- /.col -->
       </div>
-      <!-- /.row -->
-      <!-- /.row -->
       <div class="row">
-         <!-- Left col -->
          <div class="row col-md-12">
-            <?php if(userpermission('lr_ie_list')) { ?>
+            <?php if (userpermission('lr_ie_list')) { ?>
             <div class="col-md-6">
-               <!-- TABLE: LATEST ORDERS -->
                <div class="card">
                   <div class="card-header">
                      <h2 class="card-title">Historical</h2>
@@ -96,7 +78,6 @@
                               </span>
                            </p>
                         </div>
-                        <!-- /.d-flex -->
                         <div class="position-relative mb-4">
                            <div class="chartjs-size-monitor">
                               <div class="chartjs-size-monitor-expand">
@@ -120,7 +101,8 @@
                   </div>
                </div>
             </div>
-            <?php } if(userpermission('lr_reminder_list')) { ?>
+            <?php }
+            if (userpermission('lr_reminder_list')) { ?>
             <div class="col-md-6">
                <div class="card">
                   <div class="card-header ui-sortable-handle" style="cursor: move;">
@@ -131,29 +113,32 @@
                      <div class="card-tools">
                      </div>
                   </div>
-                  <!-- /.card-header -->
                   <div class="card-body">
                      <ul class="todo-list ui-sortable" data-widget="todo-list">
-                        <?php if(!empty($todayreminder)) { foreach($todayreminder as $reminder) { ?>
+                        <?php if (!empty($todayreminder)) {
+                           foreach ($todayreminder as $reminder) { ?>
                         <li id="<?= $reminder['r_id'] ?>">
                            <span class="text">
-                              <?= $reminder['r_message']. ' ';  ?>    
+                              <?= $reminder['r_message'] . ' ';  ?>    
                               <div class="tools"> 
                                  <button type="button" data-id="<?= $reminder['r_id'] ?>" class="todayreminderread btn btn-block btn-outline-primary btn-xs">Mark as Read</button>                 
                               </div>
                            </span>
                         </li>
-                        <?php }  } else { echo 'No reminders'; } ?>  
+                        <?php }
+                        } else {
+                           echo 'No reminders';
+                        } ?>  
                      </ul>
                   </div>
-                  <!-- /.card-body -->
                   <div class="card-footer clearfix">
                      <a href="<?= base_url() ?>reminder/addreminder"><button type="button" class="btn btn-info float-right"><i class="fas fa-plus"></i> Add Reminder</button></a>
                   </div>
                </div>
             </div>
          </div>
-         <?php } if(userpermission('lr_liveloc')) { ?>
+         <?php }
+            if (userpermission('lr_liveloc')) { ?>
          <div class="col-sm-6 col-lg-6 ">
             <div class="card ">
                <div class="card-header">
@@ -167,19 +152,21 @@
                      </tr>
                   </thead>
                   <tbody>
-                     <?php if(!empty($vechicle_currentlocation)){  
-                        foreach($vechicle_currentlocation as $vech_details){
-                        ?>
+                     <?php if (!empty($vechicle_currentlocation)) {
+                        foreach ($vechicle_currentlocation as $vech_details) {
+                     ?>
                      <tr>
                         <td> <?php echo output($vech_details['v_name']); ?></td>
-                        <td>  <span class="badge badge-<?php echo ($vech_details['current_location']!='') ? 'success':'warning' ?>"><?php echo ($vech_details['current_location']!='') ?wordwrap($vech_details['current_location'], 60, "<br />\n") :'Location Not Updated' ?></span></td>
+                        <td>  <span class="badge badge-<?php echo ($vech_details['current_location'] != '') ? 'success' : 'warning' ?>"><?php echo ($vech_details['current_location'] != '') ? wordwrap($vech_details['current_location'], 60, "<br />\n") : 'Location Not Updated' ?></span></td>
                      </tr>
-                     <?php } } ?>
+                     <?php }
+                     } ?>
                   </tbody>
                </table>
             </div>
          </div>
-         <?php } if(userpermission('lr_vech_list')) { ?>
+         <?php }
+            if (userpermission('lr_vech_list')) { ?>
          <div class="col-sm-6 col-lg-6 ">
             <div class="card">
                <div class="card-header">
@@ -193,19 +180,22 @@
                      </tr>
                   </thead>
                   <tbody>
-                     <?php if(!empty($vechicle_status)){ foreach ($vechicle_status as $key => $vechicle_status_arr) {
-                        ?>
+                     <?php if (!empty($vechicle_status)) {
+                        foreach ($vechicle_status as $key => $vechicle_status_arr) {
+                     ?>
                      <tr>
                         <td><?php echo output($vechicle_status_arr['v_name']); ?></td>
                         <td>
-                           <span class="badge badge-<?php echo ($vechicle_status_arr['t_trip_status']=='Completed') ? 'success':'danger' ?>"><?php echo ($vechicle_status_arr['t_trip_status']=='Completed') ? 'Idle':'In Trip' ?></span>
+                           <span class="badge badge-<?php echo ($vechicle_status_arr['t_trip_status'] == 'Completed') ? 'success' : 'danger' ?>"><?php echo ($vechicle_status_arr['t_trip_status'] == 'Completed') ? 'Idle' : 'In Trip' ?></span>
                         </td>
                      </tr>
-                     <?php  }   }  ?>
+                     <?php  }
+                     }  ?>
                </table>
             </div>
          </div>
-         <?php } if(userpermission('lr_geofence_list')) { ?>
+         <?php }
+            if (userpermission('lr_geofence_list')) { ?>
          <div class="col-md-6">
             <div class="col-sm-12 col-lg-12 ">
                <div class="card">
@@ -221,15 +211,20 @@
                         </tr>
                      </thead>
                      <tbody>
-                        <?php if(!empty($geofenceevents)){  
-                           foreach($geofenceevents as $geofence){
-                           ?>
+                        <?php if (!empty($geofenceevents)) {
+                           foreach ($geofenceevents as $geofence) {
+                        ?>
                         <tr>
                            <td> <?php echo output($geofence['v_name']); ?></td>
-                           <td>  <?php if($geofence['ge_event']=='inside') { echo 'Moving '.output($geofence['ge_event']).' '.$geofence['geo_name']; } else {  echo 'Exiting '.output($geofence['ge_event']) .' ' .$geofence['geo_name']; } ?></td>
+                           <td>  <?php if ($geofence['ge_event'] == 'inside') {
+                                    echo 'Moving ' . output($geofence['ge_event']) . ' ' . $geofence['geo_name'];
+                                 } else {
+                                    echo 'Exiting ' . output($geofence['ge_event']) . ' ' . $geofence['geo_name'];
+                                 } ?></td>
                             <td> <?php echo output($geofence['ge_timestamp']); ?></td>
                         </tr>
-                        <?php } } ?>
+                        <?php }
+                        } ?>
                      </tbody>
                   </table>
                </div>
@@ -237,19 +232,28 @@
          </div>
          <?php } ?>
       </div>
-      <!-- /.card -->
-      <!-- /.col -->
-      <!-- /.col -->
    </div>
-   <!-- /.row -->
-   </div><!--/. container-fluid -->
-</section>
+</section> -->
 <!-- /.content -->
+
+<section class="content">
+   <div class="container-fluid">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="card rounded-0">
+               <div class="card-body">
+                  <div id="windy" style="width: 100%; height: 600px;"></div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
 </div>
-<script src="<?php echo base_url(); ?>assets/plugins/chart.js/Chart.min.js"></script>
+<!-- <script src="<?php echo base_url(); ?>assets/plugins/chart.js/Chart.min.js"></script> -->
 
 <!-- /.content-wrapper -->
-<?php if(userpermission('lr_ie_list')) { ?>
+<!-- <?php if (userpermission('lr_ie_list')) { ?>
   <script>
   var ticksStyle = {
     fontColor: '#495057',
@@ -260,10 +264,10 @@
   var $visitorsChart = $('#ie-chart')
   var visitorsChart  = new Chart($visitorsChart, {
     data   : {
-      labels  : <?= "['" . implode ( "', '", array_keys($iechart)) . "']" ?>,
+      labels  : <?= "['" . implode("', '", array_keys($iechart)) . "']" ?>,
       datasets: [{
         type                : 'line',
-        data                : <?= "['" . implode ( "', '", array_column($iechart, 'income')). "']" ?>,
+        data                : <?= "['" . implode("', '", array_column($iechart, 'income')) . "']" ?>,
         backgroundColor     : 'transparent',
         borderColor         : '#28a745',
         pointBorderColor    : '#28a745',
@@ -274,7 +278,7 @@
       },
         {
           type                : 'line',
-          data                : <?= "['" . implode ( "', '", array_column($iechart, 'expense')) . "']" ?>,
+          data                : <?= "['" . implode("', '", array_column($iechart, 'expense')) . "']" ?>,
           backgroundColor     : 'tansparent',
           borderColor         : '#dc3545',
           pointBorderColor    : '#dc3545',
@@ -322,4 +326,35 @@
     }
   })
 
-</script> <?php } ?>
+</script> <?php } ?> -->
+
+<script>
+   const options = {
+      // Required: API key
+      key: 'w4MQrAJ7s06EGyMTtzSbPFRuw5ORcJyv', // REPLACE WITH YOUR KEY !!!
+
+      // Put additional console output
+      verbose: true,
+
+      // Optional: Initial state of the map
+      lat: 50.4,
+      lon: 14.3,
+      zoom: 5,
+   };
+
+   // Initialize Windy API
+   windyInit(options, windyAPI => {
+      // windyAPI is ready, and contain 'map', 'store',
+      // 'picker' and other usefull stuff
+
+      const {
+         map
+      } = windyAPI;
+      // .map is instance of Leaflet map
+
+      L.popup()
+         .setLatLng([50.4, 14.3])
+         .setContent('Hello World')
+         .openOn(map);
+   });
+</script>
