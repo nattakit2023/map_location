@@ -14,11 +14,8 @@ if ($this->uri->segment(3)) {
         <div class="col-lg-12 col-md-12" id="map" style="width: 100%; height: 650px;margin-bottom: 50px;"></div>
         <div class="form-group">
             <div class="row">
-                <div class="col-md-1 col-sm-3" style="display: flex;align-items: center;">
-                    <label class="form-label text-dark">Select Vessel</label>
-                </div>
                 <div class="col-md-2 col-sm-4">
-                    <select name=" vessel" id="vessel_name" class="form-control">
+                    <select name=" vessel" id="vessel_name" class="form-control" placeholder="Select Vessel">
                         <option value="" selected disabled></option>
                         <?php
                         $groupedData = [];
@@ -38,10 +35,44 @@ if ($this->uri->segment(3)) {
                     </select>
                 </div>
                 <div class="col-md-1 col-sm-4">
-                    <button class="btn btn-primary" id="play_video" onclick="get_video('Open')">Update</button>
+                    <!-- <button class="btn btn-primary" id="play_video" onclick="get_video('Open')"><i class="nav-icon fas fa-camera"> CCTV OPEN</i></button> -->
+                    <div class="row" style="justify-content: center;">
+                        <img src="<?= base_url() ?>assets/image/cctv.jpg" width="50px" height="50px">
+                    </div>
+                    <div class="row" style="justify-content: center;">
+                        <p>CCTV OPEN</p>
+
+                    </div>
                 </div>
                 <div class="col-md-1 col-sm-4">
-                    <button class="btn btn-primary" id="stop_video" onclick="get_video('Stop')" disabled>Stop</button>
+                    <!-- <button class="btn btn-primary" id="stop_video" onclick="get_video('Stop')" disabled><i class="nav-icon fas fa-camera"> CCTV STOP</i></button> -->
+                    <div class="row" style="justify-content: center;">
+                        <img src="<?= base_url() ?>assets/image/cctv-stop.jpg" width="50px" height="50px">
+                    </div>
+                    <div class="row" style="justify-content: center;">
+                        <p>CCTV STOP</p>
+
+                    </div>
+                </div>
+                <div class="col-md-1 col-sm-4">
+                    <!-- <button class="btn btn-primary"><i class="nav-icon fas fa-chart-bar"> Crew</i></button> -->
+                    <div class="row" style="justify-content: center;">
+                        <img src="<?= base_url() ?>assets/image/status.png" width="50px" height="50px">
+                    </div>
+                    <div class="row" style="justify-content: center;">
+                        <p>CREW STATUS</p>
+
+                    </div>
+                </div>
+                <div class="col-md-1 col-sm-4">
+                    <!-- <button class="btn btn-primary"><i class="nav-icon fas fa-gas-pump"> Fuel</i></button> -->
+                    <div class="row" style="justify-content: center;">
+                        <img src="<?= base_url() ?>assets/image/fuel.png" width="70px" height="50px">
+                    </div>
+                    <div class="row" style="justify-content: center;">
+                        <p>FMS</p>
+
+                    </div>
                 </div>
                 <input type="text" id="streamSecrtKey" value="" hidden />
             </div>
@@ -52,6 +83,8 @@ if ($this->uri->segment(3)) {
 <div id="video-play" style="display: flex; justify-content: center;">
     <div id="playWind"></div>
 </div>
+
+
 </div>
 </div>
 <script src="<?= base_url(); ?>assets/dist/jsPlugin-1.2.0.min.js"></script>

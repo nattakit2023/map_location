@@ -45,12 +45,20 @@ if (!isset($this->session->userdata['session_data'])) {
     <!-- Load Leaflet 1.4.0 (Required for Windy API) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
     <script src="https://api.windy.com/assets/map-forecast/libBoot.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
     <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
 
     <style>
+        :where(#map-container) {
+            z-index: 0;
+        }
+
+        :where(#logo-wrapper, #plugin-menu, #windy, #bottom, #embed-zoom, #mobile-ovr-select) {
+            z-index: 1000;
+        }
+
         .square-marker {
             width: 5px;
             /* Adjust size as needed */
@@ -136,7 +144,7 @@ if (!isset($this->session->userdata['session_data'])) {
         }
     </style>
 
-    
+
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">

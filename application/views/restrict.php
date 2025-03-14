@@ -118,7 +118,7 @@
             marker = L.marker([lat, lng], {}).addTo(map).bindTooltip(name, {
                 permanent: true, // Make the tooltip always visible
                 direction: 'bottom', // Adjust direction as needed
-                offset: L.point(-15, 20), // Adjust offset as needed
+                offset: L.point(0, 0), // Adjust offset as needed
                 className: 'my-permanent-tooltip' // Optional: Add a custom CSS class
             }); // Use custom icon
             const radiusMeters = radiusNMI * 1852;

@@ -70,6 +70,6 @@ class Login extends CI_Controller {
 		$this->session->unset_userdata('session_data', $sess_array);
 		$this->session->unset_userdata('userroles', array());
 		$this->session->set_flashdata('successmessage', 'Successfully Logged out !');
-		redirect('login');
+		redirect('');
 	}
 }
