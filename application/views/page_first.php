@@ -52,7 +52,8 @@
             position: absolute;
             width: 100%;
             clip-path: polygon(0 0, 55% 0, 45% 100%, 0% 100%);
-            background: rgba(3, 56, 85, 0.4)
+            background: rgba(3, 56, 85, 0.4);
+            z-index: 1000;
         }
 
         .split-section.right {
@@ -60,6 +61,8 @@
             width: 100%;
             clip-path: polygon(45% 100%, 55% 0%, 100% 0%, 100% 100%);
             background: rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+
         }
 
         .content-left {
@@ -97,6 +100,30 @@
             font-weight: 600;
         }
 
+        footer {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: left;
+            align-items: end;
+        }
+
+        footer p {
+            color: white;
+            font-size: 12px;
+            font-weight: 400;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        footer span {
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
         .button {
             display: inline-block;
             background-color: #007bff;
@@ -108,6 +135,7 @@
             font-weight: 600;
             text-decoration: none;
             border-radius: 5px;
+            z-index: 5;
         }
 
         .button:hover {
@@ -134,10 +162,15 @@
                     <div class="title">
                         <h2>SCO</h2>
                         <p>SC OFFSHORE</p>
-                        <a href="/login" class="button">Visit</a>
+                        <a href="<?= base_url() ?>/login" class="button">Visit</a>
                     </div>
                 </div>
             </div>
+            <footer>
+                <p>&copy; 2021 SCM, SCO, and all rights reserved. </p>
+                <p> Designed by <span>Ship Expert</span>.</p>
+                <p>Version 1.0</p>
+            </footer>
         </div>
     </div>
 

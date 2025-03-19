@@ -34,20 +34,20 @@ if ($this->uri->segment(3)) {
                         ?>
                     </select>
                 </div>
-                <div class="col-md-1 col-sm-4">
+                <div class="col-md-1 col-sm-4" style="cursor: pointer;" id="play_video" onclick="get_video('Open')">
                     <!-- <button class="btn btn-primary" id="play_video" onclick="get_video('Open')"><i class="nav-icon fas fa-camera"> CCTV OPEN</i></button> -->
                     <div class="row" style="justify-content: center;">
-                        <img src="<?= base_url() ?>assets/image/cctv.jpg" width="50px" height="50px">
+                        <img src="<?= base_url() ?>assets/image/cctv.png" width="50px" height="50px">
                     </div>
                     <div class="row" style="justify-content: center;">
                         <p>CCTV OPEN</p>
 
                     </div>
                 </div>
-                <div class="col-md-1 col-sm-4">
+                <div class="col-md-1 col-sm-4" style="cursor: pointer;" id="stop_video" onclick="get_video('Stop')">
                     <!-- <button class="btn btn-primary" id="stop_video" onclick="get_video('Stop')" disabled><i class="nav-icon fas fa-camera"> CCTV STOP</i></button> -->
                     <div class="row" style="justify-content: center;">
-                        <img src="<?= base_url() ?>assets/image/cctv-stop.jpg" width="50px" height="50px">
+                        <img src="<?= base_url() ?>assets/image/cctv.png" width="50px" height="50px">
                     </div>
                     <div class="row" style="justify-content: center;">
                         <p>CCTV STOP</p>
@@ -79,10 +79,22 @@ if ($this->uri->segment(3)) {
         </div>
     </div>
 </section>
-
-<div id="video-play" style="display: flex; justify-content: center;">
-    <div id="playWind"></div>
-</div>
+<section class="content" style="padding: 0.5rem">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card rounded-0" id="card-video" hidden>
+                    <div class="card-body">
+                        <div id="video-play" style="display: flex; justify-content: center;">
+                            <div id="playWind"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
 
 
 </div>
@@ -90,7 +102,7 @@ if ($this->uri->segment(3)) {
 <script src="<?= base_url(); ?>assets/dist/jsPlugin-1.2.0.min.js"></script>
 
 <script>
-    var map = L.map('map').setView([13.6499, 100.5843], 5); // Samrong Nuea coordinates and zoom level
+    var map = L.map('map').setView([13.406105629697434, 100.91933242591432], 6); // Samrong Nuea coordinates and zoom level
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
     map.addControl(new L.Control.Fullscreen());
 
@@ -203,26 +215,33 @@ if ($this->uri->segment(3)) {
                                 <tr>
                                     <td>
                                         <table>
-                                        <tr>
-                                            <th>Latitude</th>
-                                            <td>${parseFloat(lat).toFixed(5)}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Longitude</th>
-                                            <td>${parseFloat(lng).toFixed(5)}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Heading</th>
-                                            <td>${heading[index_head]}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Speed</th>
-                                            <td>${speed.toFixed(5)} Knot</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Bearing</th>
-                                            <td>${Bearing.toFixed(2)} ํ</td>
-                                        </tr>
+                                            <thead>
+                                                <tr>
+                                                    <th span="2">Vessel Location</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th>Latitude</th>
+                                                    <td>${parseFloat(lat).toFixed(5)}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Longitude</th>
+                                                    <td>${parseFloat(lng).toFixed(5)}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Heading</th>
+                                                    <td>${heading[index_head]}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Speed</th>
+                                                    <td>${speed.toFixed(5)} Knot</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Bearing</th>
+                                                    <td>${Bearing.toFixed(2)} ํ</td>
+                                                </tr>
+                                            </tbody>
                                         </table>
                                     </td>
                                 </tr>
@@ -243,26 +262,33 @@ if ($this->uri->segment(3)) {
                                 <tr>
                                     <td>
                                         <table>
-                                        <tr>
-                                            <th>Latitude</th>
-                                            <td>${parseFloat(lat).toFixed(5)}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Longitude</th>
-                                            <td>${parseFloat(lng).toFixed(5)}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Heading</th>
-                                            <td>${heading[index_head]}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Speed</th>
-                                            <td>${speed.toFixed(5)} Knot</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Bearing</th>
-                                            <td>${Bearing.toFixed(2)} ํ</td>
-                                        </tr>
+                                            <thead>
+                                                <tr>
+                                                    <th span="2">Vessel Location</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th>Latitude</th>
+                                                    <td>${parseFloat(lat).toFixed(5)}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Longitude</th>
+                                                    <td>${parseFloat(lng).toFixed(5)}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Heading</th>
+                                                    <td>${heading[index_head]}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Speed</th>
+                                                    <td>${speed.toFixed(5)} Knot</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Bearing</th>
+                                                    <td>${Bearing.toFixed(2)} ํ</td>
+                                                </tr>
+                                            </tbody>
                                         </table>
                                     </td>
                                 </tr>
@@ -383,6 +409,16 @@ if ($this->uri->segment(3)) {
             document.getElementById("stop_video").disabled = true;
             vessel.disabled = false;
         }
+    }
+
+    function checker_open() {
+        const play_video = document.getElementById("play_video");
+        const stop_video = document.getElementById("play_video");
+        const crew_status = document.getElementById("crew_status");
+        const fms = document.getElementById("fms");
+        const card_video = document.getElementById("card_video");
+        const card_crew = document.getElementById("card_crew");
+        const card_fms = document.getElementById("card_fms");
     }
 
     // function realplay(value) {

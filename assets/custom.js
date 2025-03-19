@@ -632,9 +632,9 @@ $("#restrictvaluesave").on("click", function (e) {
     url: "restrict_save",
     success: function (result) {
       if (result == "false") {
-        alertmessage("Failed to save geo data", 2);
+        alertmessage("Failed to save restrict data", 2);
       } else {
-        alertmessage("Geo data saved successfully", 1);
+        alertmessage("Restrict data saved successfully", 1);
         $("#modal-restrict").modal("hide");
       }
     },

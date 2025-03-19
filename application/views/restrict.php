@@ -13,7 +13,7 @@
     //   ],
     // };
 
-    var map = L.map('map').setView([13.6499, 100.5843], 5);
+    var map = L.map('map').setView([13.406105629697434,100.91933242591432], 6); // Samrong Nuea coordinates and zoom level
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
     map.addControl(new L.Control.Fullscreen());
 

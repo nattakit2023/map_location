@@ -173,8 +173,34 @@
                </ul>
             </li>
 
-         <?php }
-                  if (userpermission('lr_settings')) { ?>
+         <?php } ?>
+
+         <li class="nav-item has-treeview <?php echo ((activate_menu('fms')) == 'active') ? 'menu-open' : '' ?> <?php echo ((activate_menu('crew_status')) == 'active') ? 'menu-open' : '' ?>">
+            <a href="<?= base_url(); ?>reports" class="nav-link <?php echo activate_menu('report'); ?>" style="display:flex;align-items:center;font-weight:600;">
+               <span class="material-symbols-outlined">
+                  lab_profile
+               </span>
+               <p>
+                  Report Management
+                  <i class="right fas fa-angle-left"></i>
+               </p>
+            </a>
+            <ul class="nav nav-treeview">
+               <li class="nav-item">
+                  <a href="<?= base_url(); ?>reports/fms" class="nav-link <?php echo activate_menu('fms'); ?>">
+                     <i class="fas fa-cosg icon nav-icon"></i>
+                     <p>FMS</p>
+                  </a>
+               </li>
+               <li class="nav-item">
+                  <a href="<?= base_url(); ?>reports/crew_status" class="nav-link <?php echo activate_menu('crew_status'); ?>">
+                     <i class="fas fa-cosg icon nav-icon"></i>
+                     <p>CREW Status</p>
+                  </a>
+               </li>
+            </ul>
+         </li>
+         <?php if (userpermission('lr_settings')) { ?>
             <li class="nav-item has-treeview <?php echo ((activate_menu('websitesetting')) == 'active') ? 'menu-open' : '' ?> <?php echo ((activate_menu('smtpconfig')) == 'active') ? 'menu-open' : '' ?><?php echo ((activate_menu('email_template')) == 'active') ? 'menu-open' : '' ?><?php echo ((activate_menu('edit_email_template')) == 'active') ? 'menu-open' : '' ?>">
                <a href="#" class="nav-link <?php echo activate_menu('websitesetting'); ?><?php echo activate_menu('email_template'); ?> <?php echo activate_menu('smtpconfig'); ?><?php echo activate_menu('edit_email_template'); ?>" style="display:flex;align-items:center;font-weight:600;">
                   <span class="nav-icon material-symbols-outlined">

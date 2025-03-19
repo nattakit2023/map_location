@@ -41,9 +41,9 @@
                         <td><?php echo output($count); $count++; ?></td>
                         <td><a href="https://iot.thaicom.io/dashboards/shared/6f03d010-e4d2-11ee-9ae1-d9b029988059/7a5c04a0-e4d2-11ee-9ae1-d9b029988059"><?php echo output($vehiclelists['v_name']); ?></a></td>
 
-                        <td><?php echo output($vehiclelists['v_registration_no']); ?></td>
                         <td><?php echo output($vehiclelists['v_model']); ?></td>
                         <td><?php echo output($vehiclelists['v_chassis_no']); ?></td>
+                        <td><?php echo output($vehiclelists['v_engine_no']); ?></td>
                         <td><?php echo output($vehiclelists['gr_name']); ?></td>
                         <td><span class="badge <?php echo ($vehiclelists['v_is_active']=='1') ? 'badge-success' : 'badge-danger'; ?> "><?php echo ($vehiclelists['v_is_active']=='1') ? 'Active' : 'Inactive'; ?></span>  
                         </td>

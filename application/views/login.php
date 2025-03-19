@@ -23,6 +23,20 @@ if ($this->config->item('company_name') !== '') {
   <link rel="stylesheet" href="<?= base_url(); ?>assets/dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+  <style>
+    footer {
+      text-align: center;
+      margin-top: 10px;
+      color: #999;
+    }
+
+    footer span {
+      color: #007bff;
+      font-size: 18px;
+      font-weight: 600;
+    }
+  </style>
 </head>
 
 <body class="hold-transition login-page">
@@ -90,6 +104,10 @@ if ($this->config->item('company_name') !== '') {
       </div>
       <!-- /.login-card-body -->
     </div>
+    <footer>
+      <p>&copy; 2021 SCM, SCO, and all rights reserved. </p>
+      <p> Designed by <span>Ship Expert</span>. Version 1.0</p>
+    </footer>
   </div>
   <!-- /.login-box -->
 

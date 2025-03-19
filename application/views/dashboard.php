@@ -242,7 +242,7 @@
          <div class="col-md-12">
             <div class="card rounded-0">
                <div class="card-body">
-                  <div id="windy" style="width: 100%; height: 600px;"></div>
+                  <div id="windy" style="width: 100%; height: 715px;"></div>
                </div>
             </div>
          </div>
@@ -345,14 +345,18 @@
    // Initialize Windy Map
    windyInit({
          key: WINDY_API_KEY,
-         lat: 20.5937, // India Center
-         lon: 78.9629,
-         zoom: 5,
+         lat: 13.406105629697434,
+         lon: 100.91933242591432,
+         zoom: 6,
+         mobileUI: "fullscreen",
+         verbose: true,
       },
       (windyAPI) => {
          const {
             map
          } = windyAPI; // Get Leaflet instance from Windy API
+         map.addControl(new L.Control.Fullscreen());
+
 
          map.invalidateSize();
 
