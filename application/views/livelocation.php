@@ -358,7 +358,6 @@ if ($this->uri->segment(3)) {
         markers = {}; // Clear the markers object
     }
 
-
     function realplay(value, data) {
         var iWind = 0;
 
@@ -537,7 +536,7 @@ if ($this->uri->segment(3)) {
                 const crew_header = document.querySelector("#card_crew .card-header");
                 report_crew.innerHTML = `
                     <div>
-                        <img src="<?= base_url(); ?>${data[0].file_path}"/>
+                        <img src="<?= base_url(); ?>${data[0].file_path}" width="100%" height="100%"/>
                     </div>
                 `;
                 crew_header.innerHTML = `
@@ -568,7 +567,7 @@ if ($this->uri->segment(3)) {
                 const crew_header = document.querySelector("#card_fms .card-header");
                 report_fms.innerHTML = `
                     <div>
-                        <img src="<?= base_url(); ?>${data[0].file_path}"/>
+                        <img src="<?= base_url(); ?>${data[0].file_path}" width="100%" height="100%"/>
                     </div>
                 `;
                 crew_header.innerHTML = `
