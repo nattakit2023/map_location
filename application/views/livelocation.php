@@ -374,10 +374,10 @@ if ($this->uri->segment(3)) {
         let iCurrentSplit = 0;
 
         if (data.length <= 2) {
-            width = 1200;
-            height = 800;
-            iWidth = 1200;
-            iHeight = 800;
+            width = 600;
+            height = 400;
+            iWidth = 600;
+            iHeight = 400;
             iCurrentSplit = 2;
 
         } else if (data.length <= 4) {
@@ -387,9 +387,9 @@ if ($this->uri->segment(3)) {
             iHeight = 400;
             iCurrentSplit = 2;
         } else {
-            width = 1600;
-            height = 800;
-            iWidth = 1600;
+            width = 1200;
+            height = 400;
+            iWidth = 1200;
             iHeight = 800;
             iCurrentSplit = 4;
         }

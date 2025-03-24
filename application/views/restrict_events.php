@@ -45,7 +45,6 @@
                     <td> <span class="badge badge-danger">
                         <?php echo output($restrict['latitude']); ?> , <?= output($restrict['longitude']) ?></span> </td>
                     <td><?php echo output($restrict['res_timestamp']); ?></td>
-
                   </tr>
               <?php }
               } ?>

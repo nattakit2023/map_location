@@ -25,7 +25,7 @@
                      <tr>
                         <th class="w-1">S.No</th>
                         <th>Name</th>
-                        <th>Mobile</th>
+                        <th>Username</th>
                         <th>Email</th>
                         <th>Status</th>
                         <th>Action</th>

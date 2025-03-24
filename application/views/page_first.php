@@ -21,14 +21,27 @@
             width: 100%;
             height: 100vh;
             font-family: 'General Sans', sans-serif;
-
+            margin: 0px;
         }
 
         .img {
             position: relative;
             width: 100%;
             height: 100%;
+        }
 
+        .content {
+            position: absolute;
+            display: flex;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .content-center {
+            color: white;
+            z-index: 1000;
         }
 
         .split-container {
@@ -84,20 +97,37 @@
             position: relative;
         }
 
+        .title {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 0px;
+            margin-block-start: 0;
+            margin-block-end: 0;
+        }
+
+        .title .image {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            height: 150px;
+        }
+
         h2 {
             font-size: 88px;
             font-weight: bold;
             margin-bottom: 0px;
             display: flex;
-            margin-left: 0.5rem;
             margin-block-start: 0;
             margin-block-end: 0;
             line-height: 0.6;
+            justify-content: center;
         }
 
         p {
             font-size: 48px;
             font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 1rem;
         }
 
         footer {
@@ -125,6 +155,11 @@
         }
 
         .button {
+            display: flex;
+            justify-content: center;
+        }
+
+        .submit {
             display: inline-block;
             background-color: #007bff;
             border: 1px solid #eeeeee;
@@ -149,25 +184,24 @@
         <img src="<?= base_url() ?>assets/image/bg-first-2.jpg" width="100%" height="100%" style="position:absolute">
         <div class="split-container">
             <div class="split-section left">
-                <div class="content-left">
-                    <div class="title">
-                        <h2>SCM</h2>
-                        <p>SC MANAGEMENT</p>
-                        <a href="#" class="button">Visit</a>
-                    </div>
-                </div>
             </div>
             <div class="split-section right">
-                <div class="content-right">
+            </div>
+            <div class="content">
+                <div class="content-center">
                     <div class="title">
-                        <h2>SCO</h2>
-                        <p>SC OFFSHORE</p>
-                        <a href="<?= base_url() ?>/login" class="button">Visit</a>
+                        <span class="image">
+                            <img src="https://www.scgroupthai.com/images/client/scm.png">
+                        </span>
+                        <p>SC Management Co.,Ltd.</p>
+                        <span class="button">
+                            <a href="<?= base_url() ?>/login" class="submit">Visit</a>
+                        </span>
                     </div>
                 </div>
             </div>
             <footer>
-                <p>&copy; 2021 SCM, SCO, and all rights reserved. </p>
+                <p>&copy; 2021 SCM and all rights reserved. </p>
                 <p> Designed by <span>Ship Expert</span>.</p>
                 <p>Version 1.0</p>
             </footer>

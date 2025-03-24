@@ -258,6 +258,31 @@
                </ul>
             </li>
          <?php } ?>
+         <li class="nav-item has-treeview <?php echo ((activate_menu('customer')) == 'active') ? 'menu-open' : '' ?> <?php echo ((activate_menu('addcustomer')) == 'active') ? 'menu-open' : '' ?> <?php echo ((activate_menu('editcustomer')) == 'active') ? 'menu-open' : '' ?>">
+            <a href="#" class="nav-link <?php echo activate_menu('customer'); ?> <?php echo activate_menu('editcustomer'); ?><?php echo activate_menu('addcustomer'); ?>" style="display:flex;align-items:center;font-weight:600;">
+            <span class="material-symbols-outlined">
+assignment_ind
+</span>
+               <p>
+                  Customer
+                  <i class="right fas fa-angle-left"></i>
+               </p>
+            </a>
+            <ul class="nav nav-treeview">
+               <li class="nav-item">
+                  <a href="<?= base_url(); ?>customer" class="nav-link <?php echo activate_menu('customer'); ?> <?php echo activate_menu('editcustomer'); ?>">
+                     <i class="fas fa-cosg icon nav-icon"></i>
+                     <p>Customer Management</p>
+                  </a>
+               </li>
+               <li class="nav-item">
+                  <a href="<?= base_url(); ?>customer/addcustomer" class="nav-link <?php echo activate_menu('addcustomer'); ?>">
+                     <i class="nav-icon fas faa-plus"></i>
+                     <p>Add Customer</p>
+                  </a>
+               </li>
+            </ul>
+         </li>
          <li class="nav-item">
             <a href="<?= base_url(); ?>resetpassword" class="nav-link <?php echo activate_menu('resetpassword'); ?>" style="display:flex;align-items:center;font-weight:600;">
                <span class="nav-icon material-symbols-outlined">
@@ -270,13 +295,13 @@
          </li>
          </ul>
       </nav>
-   </div>
-   <div class="sidebar-footer" style="padding: 10px 30px 10px 30px; color: rgba(0,0,0,0.4); font-size: 12px; font-weight: 500; position: absolute; bottom: 0; width: 100%;">
-      <p>Developed by<br><span style="color: rgba(0,0,0,0.8);">
-            Ship Expert Technology
-         </span>
-      </p>
-      <p>Version 0.1</p>
+      <div class="sidebar-footer" style="padding: 200px 30px 10px 30px; color: rgba(0,0,0,0.4); font-size: 12px; font-weight: 500; position: relative; bottom: 0;">
+         <p>Developed by<br><span style="color: rgba(0,0,0,0.8);">
+               Ship Expert Technology
+            </span>
+         </p>
+         <p>Version 0.1</p>
+      </div>
    </div>
 </aside>
 <div class="content-wrapper pb-2 mb-0">
