@@ -334,6 +334,7 @@
 
    // Store markers in an array so we can remove them before updating
    let markers = [];
+   var vessel_location;
 
    // Function to generate random coordinates (for testing)
    function getRandomCoords() {
@@ -349,24 +350,19 @@
          lon: 100.91933242591432,
          zoom: 6,
          mobileUI: "fullscreen",
-         verbose: true,
       },
       (windyAPI) => {
          const {
             map
          } = windyAPI; // Get Leaflet instance from Windy API
          map.addControl(new L.Control.Fullscreen());
-
-
          map.invalidateSize();
 
 
          async function map_location() {
             removeAllMarkers();
-
-            var location = await getData_location();
-
-            location.map((item) => {
+            vessel_location = await getData_location();
+            vessel_location.map((item) => {
                item.latitude = parseFloat(item.latitude).toFixed(5);
                item.longitude = parseFloat(item.longitude).toFixed(5);
                const Bearing = calculateHeading(item.latlng[1].latitude, item.latlng[1].longitude, item.latlng[0].latitude, item.latlng[0].longitude);
@@ -376,7 +372,6 @@
             })
 
          }
-
 
          async function getData_location() {
             var data = await $.ajax({
@@ -392,6 +387,20 @@
                }
             })
             return data;
+         }
+
+         async function ChangeData() {
+            var change_location = await getData_location();
+            var checked = 0;
+            for (var i = 0; i < change_location.length; i++) {
+               if (change_location[i].id != vessel_location[i].id && change_location[i].esnName == vessel_location[i].esnName) {
+                  checked = 1;
+                  break;
+               }
+            }
+            if (checked == 1) {
+               map_location();
+            }
          }
 
          function update_location(lat, lng, esnName, esn, index_head, speed, Bearing) {
@@ -505,7 +514,7 @@
 
 
          map_location();
-         setInterval(map_location, 30000); // 5000 milliseconds = 5 seconds
+         setInterval(ChangeData, 30000); // 5000 milliseconds = 5 seconds
 
          // Set Windy overlay (e.g., Wind Layer)
          windyAPI.store.set("overlay", "wind");

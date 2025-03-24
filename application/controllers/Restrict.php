@@ -109,4 +109,26 @@ class Restrict extends CI_Controller
         $data['restrictevents'] = $returndata;
         $this->template->template_render('restrict_events', $data);
     }
+
+
+    public function get_restrictevents()
+    {
+        $returndata = array();
+        $restrictevents = $this->restrict_model->get_restrictevents(5);
+        if (!empty($restrictevents)) {
+            foreach ($restrictevents as $key => $resdata) {
+                $data = $this->db->select('res_name')->from('restrict_area')->where('res_id', $resdata['res_res_id'])->get()->result_array();
+                $restrict = $this->db->select('latitude, longitude')->from('data_from_sc')->where('id', $resdata['res_events'])->get()->result_array();
+                if (isset($data[0]['res_name'])) {
+                    $returndata[] = $resdata;
+                    $returndata[$key]['res_name'] = $data[0]['res_name'];
+                }
+                if (isset($restrict[0]['latitude']) && isset($restrict[0]['longitude'])) {
+                    $returndata[$key]['latitude'] = $restrict[0]['latitude'];
+                    $returndata[$key]['longitude'] = $restrict[0]['longitude'];
+                }
+            }
+        }
+        echo json_encode($returndata);
+    }
 }

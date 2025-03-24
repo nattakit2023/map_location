@@ -87,6 +87,16 @@ class Reports extends CI_Controller
 		$this->session->set_flashdata('successmessage', 'New FMS Report added successfully..');
 	}
 
+	public function get_fms() {
+		$vessel_id = $this->input->post('vessel_id');
+		$this->db->select('*');
+		$this->db->from('fms');
+		$this->db->where('vessel_id', $vessel_id);
+		$query = $this->db->get();
+		$result = $query->result_array();
+		echo json_encode($result);
+	}
+
 	public function crew_status()
 	{
 		$data['vehicles'] = $this->vehicle_model->getall_vehicle();
@@ -113,5 +123,16 @@ class Reports extends CI_Controller
 		}
 
 		$this->session->set_flashdata('successmessage', 'New CREW Report added successfully..');
+	}
+
+	public function get_crew()
+	{
+		$vessel_id = $this->input->post('vessel_id');
+		$this->db->select('*');
+		$this->db->from('crew');
+		$this->db->where('vessel_id', $vessel_id);
+		$query = $this->db->get();
+		$result = $query->result_array();
+		echo json_encode($result);
 	}
 }

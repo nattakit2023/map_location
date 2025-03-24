@@ -169,13 +169,8 @@ if (!isset($this->session->userdata['session_data'])) {
                         </i>
                         <span class="badge badge-warning navbar-badge"></span>
                     </a>
+                    <div class="dropdown-menu dropdown-menu-right" style="left: inherit; right: 0px;width: 500px">
 
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
-                        <span class="dropdown-item dropdown-header">Notifications</span>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">aaa</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
                     </div>
                 </li>
                 <li>
@@ -196,3 +191,34 @@ if (!isset($this->session->userdata['session_data'])) {
             </ul>
         </nav>
         <!-- /.navbar -->
+
+        <script>
+            $(document).ready(function() {
+                $.ajax({
+                    url: '<?= base_url(); ?>restrict/get_restrictevents',
+                    type: 'GET',
+                    success: function(data) {
+                        var res = JSON.parse(data);
+                        const noti = res.map((item) => {
+                            return `
+                            <a href="#" class="dropdown-item">
+                                <span class="material-symbols-outlined">
+                                    warning
+                                </span>
+                                <span style="font-size: 12px">${item.v_name} inside Area ${item.res_name} </span>
+                                <span class="float-right text-muted text-sm">${item.res_timestamp}</span>
+                            </a>
+                            `
+                        });
+                        const dropdown = document.querySelector(".navbar-nav .dropdown .dropdown-menu");
+                        dropdown.innerHTML = `
+                            <span class="dropdown-item dropdown-header">Notifications</span>
+                            <div class="dropdown-divider"></div>
+                            ${noti.join("\n")}
+                            <div class="dropdown-divider"></div>
+                            <a href="<?= base_url(); ?>restrict/restrictevents" class="dropdown-item dropdown-footer">See All Notifications</a>
+                            `
+                    }
+                });
+            });
+        </script>

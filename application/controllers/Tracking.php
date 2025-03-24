@@ -23,6 +23,7 @@ class Tracking extends CI_Controller
 	{
 		// $data['api_google'] = $this->db->select('s_googel_api_key')->from('settings')->get()->result_array();
 		$data['camera_name'] = $this->db->select('*')->from('camera')->get()->result_array();
+		$data['vessel'] = json_encode($this->db->select('v_id ,v_name')->from('vehicles')->get()->result_array());
 
 		// if (isset($data[0]['s_googel_api_key']) && $data[0]['s_googel_api_key'] != '') {
 		// 	$this->template->template_render('livelocation',$data);

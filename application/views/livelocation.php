@@ -11,82 +11,42 @@ if ($this->uri->segment(3)) {
         <!-- <script id="group" data-name="<?= $data  ?>" src="<?php echo base_url(); ?>assets/livetrack.js"></script> -->
         <!-- <script src="<?php echo base_url(); ?>assets/fontawesome-markers.min.js"></script> -->
 
-        <div class="col-lg-12 col-md-12" id="map" style="width: 100%; height: 650px;margin-bottom: 50px;"></div>
-        <div class="form-group">
-            <div class="row">
-                <div class="col-md-2 col-sm-4">
-                    <select name=" vessel" id="vessel_name" class="form-control" placeholder="Select Vessel">
-                        <option value="" selected disabled></option>
-                        <?php
-                        $groupedData = [];
-
-                        foreach ($camera_name as $item) {
-                            if (in_array($item['cameraName'], $groupedData)) {
-                                continue;
-                            } else {
-                                array_push($groupedData, $item["cameraName"]);
-                            }
-                        }
-
-                        foreach ($groupedData as $name) {
-                            echo '<option value="' . $name . '">' . $name . '</option>';
-                        }
-                        ?>
-                    </select>
-                </div>
-                <div class="col-md-1 col-sm-4" style="cursor: pointer;" id="play_video" onclick="get_video('Open')">
-                    <!-- <button class="btn btn-primary" id="play_video" onclick="get_video('Open')"><i class="nav-icon fas fa-camera"> CCTV OPEN</i></button> -->
-                    <div class="row" style="justify-content: center;">
-                        <img src="<?= base_url() ?>assets/image/cctv.png" width="50px" height="50px">
-                    </div>
-                    <div class="row" style="justify-content: center;">
-                        <p>CCTV OPEN</p>
-
-                    </div>
-                </div>
-                <div class="col-md-1 col-sm-4" style="cursor: pointer;" id="stop_video" onclick="get_video('Stop')">
-                    <!-- <button class="btn btn-primary" id="stop_video" onclick="get_video('Stop')" disabled><i class="nav-icon fas fa-camera"> CCTV STOP</i></button> -->
-                    <div class="row" style="justify-content: center;">
-                        <img src="<?= base_url() ?>assets/image/cctv.png" width="50px" height="50px">
-                    </div>
-                    <div class="row" style="justify-content: center;">
-                        <p>CCTV STOP</p>
-
-                    </div>
-                </div>
-                <div class="col-md-1 col-sm-4">
-                    <!-- <button class="btn btn-primary"><i class="nav-icon fas fa-chart-bar"> Crew</i></button> -->
-                    <div class="row" style="justify-content: center;">
-                        <img src="<?= base_url() ?>assets/image/status.png" width="50px" height="50px">
-                    </div>
-                    <div class="row" style="justify-content: center;">
-                        <p>CREW STATUS</p>
-
-                    </div>
-                </div>
-                <div class="col-md-1 col-sm-4">
-                    <!-- <button class="btn btn-primary"><i class="nav-icon fas fa-gas-pump"> Fuel</i></button> -->
-                    <div class="row" style="justify-content: center;">
-                        <img src="<?= base_url() ?>assets/image/fuel.png" width="70px" height="50px">
-                    </div>
-                    <div class="row" style="justify-content: center;">
-                        <p>FMS</p>
-
-                    </div>
-                </div>
-                <input type="text" id="streamSecrtKey" value="" hidden />
-            </div>
-        </div>
+        <div class="col-lg-12 col-md-12" id="map" style="width: 100%; height: 700px;margin-bottom: 50px;"></div>
+        <input type="text" id="streamSecrtKey" value="" hidden />
     </div>
 </section>
 <section class="content" style="padding: 0.5rem">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <div class="card rounded-0" id="card-video" hidden>
+                <div class="card rounded-0" id="card_video" hidden>
+                    <div class="card-header bg-light rounded-0">
+                    </div>
                     <div class="card-body">
                         <div id="video-play" style="display: flex; justify-content: center;">
                             <div id="playWind"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card rounded-0" id="card_crew" hidden>
+                    <div class="card-header bg-light rounded-0">
+                        <h3>
+                            CREW Status Report
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="report_crew" style="display: flex; justify-content: center;">
+                        </div>
+                    </div>
+                </div>
+                <div class="card rounded-0" id="card_fms" hidden>
+                    <div class="card-header bg-light rounded-0">
+                        <h3>
+                            FMS Report
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="report_fms" style="display: flex; justify-content: center;">
                         </div>
                     </div>
                 </div>
@@ -108,14 +68,14 @@ if ($this->uri->segment(3)) {
 
 
     var markers = {}; // Array to store markers
+    var vessel_location;
+    var vessel = JSON.parse('<?= $vessel; ?>');
 
 
     async function map_location() {
         removeAllMarkers();
-
-        var location = await getData_location();
-
-        location.map((item) => {
+        vessel_location = await getData_location();
+        vessel_location.map((item) => {
             item.latitude = parseFloat(item.latitude).toFixed(5);
             item.longitude = parseFloat(item.longitude).toFixed(5);
             const Bearing = calculateHeading(item.latlng[1].latitude, item.latlng[1].longitude, item.latlng[0].latitude, item.latlng[0].longitude);
@@ -126,9 +86,23 @@ if ($this->uri->segment(3)) {
 
     }
 
+    async function ChangeData() {
+        var change_location = await getData_location();
+        var checked = 0;
+        for (var i = 0; i < change_location.length; i++) {
+            if (change_location[i].id != vessel_location[i].id && change_location[i].esnName == vessel_location[i].esnName) {
+                checked = 1;
+                break;
+            }
+        }
+        if (checked == 1) {
+            map_location();
+        }
+    }
+
     $(document).ready(function() {
         map_location();
-        setInterval(map_location, 30000); // 5000 milliseconds = 5 seconds
+        setInterval(ChangeData, 60000); // 5000 milliseconds = 5 seconds
     })
 
     async function getData_location() {
@@ -168,24 +142,25 @@ if ($this->uri->segment(3)) {
 
     }
 
-    async function get_video(check) {
-        var vessel = document.getElementById("vessel_name").value;
+    async function get_video(check, vessel) {
         var camera_all = <?= json_encode($camera_name) ?>;
         const camera_index = camera_all.filter(item => item.cameraName === vessel)
 
-
-        if (vessel == '') {
+        if (camera_index == '') {
             return false;
         }
+        const card_video = document.querySelector("#card_video .card-header");
+        card_video.innerHTML = `
+                <div class="row">
+                    <h3>
+                        CCTV ( ${vessel} )
+                    </h3>
+                </div>
+                                `;
+
         await getData_API(camera_index).then(response => {
             realplay(check, response)
         });
-        // console.log("HI Video");
-        // const testWs = new WebSocket("ws://49.231.64.173:559");
-        // testWs.onopen = () => console.log("WebSocket connection successful");
-        // testWs.onerror = (err) => console.error("WebSocket connection failed:", err);
-
-
     }
 
     function update_location(lat, lng, esnName, esn, index_head, speed, Bearing) {
@@ -245,7 +220,43 @@ if ($this->uri->segment(3)) {
                                         </table>
                                     </td>
                                 </tr>
-                            </table>`); // Update popup content
+                            </table>
+                            <div class="row" style="margin-top: 20px;">
+                                <div class="col-md-3 col-sm-4" style="cursor: pointer;" id="play_video" onclick="get_video('Open', '${esnName}')">
+                                    <div class="row" style="justify-content: center;">
+                                        <img src="<?= base_url() ?>assets/image/cctv.png" width="25px" height="25px">
+                                    </div>
+                                    <div class="row" style="justify-content: center;">
+                                        <p style="margin: 0px">OPEN</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-4" style="cursor: pointer;" id="stop_video" onclick="get_video('Stop', '${esnName}')">
+                                    <div class="row" style="justify-content: center;">
+                                        <img src="<?= base_url() ?>assets/image/cctv.png" width="25px" height="25px">
+                                    </div>
+                                    <div class="row" style="justify-content: center;">
+                                        <p style="margin: 0px">STOP</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-4" style="cursor: pointer;" id="crew_status">
+                                    <!-- <button class="btn btn-primary"><i class="nav-icon fas fa-chart-bar"> Crew</i></button> -->
+                                    <div class="row" style="justify-content: center;">
+                                        <img src="<?= base_url() ?>assets/image/status.png" width="25px" height="25px">
+                                    </div>
+                                    <div class="row" style="justify-content: center;">
+                                        <p style="margin: 0px">CREW</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-4" style="cursor: pointer;" id="fms">
+                                    <div class="row" style="justify-content: center;">
+                                        <img src="<?= base_url() ?>assets/image/fuel.png" width="25px" height="25px">
+                                    </div>
+                                    <div class="row" style="justify-content: center;">
+                                        <p style="margin: 0px">FMS</p>
+                                    </div>
+                                </div>
+                            </div>
+                            `); // Update popup content
         } else {
             var marker = L.marker([lat, lng], {
                     icon: myLogoIcon
@@ -292,7 +303,43 @@ if ($this->uri->segment(3)) {
                                         </table>
                                     </td>
                                 </tr>
-                            </table>`); // Keep bindPopup here!;
+                            </table>
+                            <div class="row" style="margin-top: 20px;">
+                                <div class="col-md-3 col-sm-4" style="cursor: pointer;" id="play_video" onclick="get_video('Open', '${esnName}')">
+                                    <div class="row" style="justify-content: center;">
+                                        <img src="<?= base_url() ?>assets/image/cctv.png" width="25px" height="25px">
+                                    </div>
+                                    <div class="row" style="justify-content: center;">
+                                        <p style="margin: 0px">OPEN</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-4" style="cursor: pointer;" id="stop_video" onclick="get_video('Stop', '${esnName}')">
+                                    <div class="row" style="justify-content: center;">
+                                        <img src="<?= base_url() ?>assets/image/cctv.png" width="25px" height="25px">
+                                    </div>
+                                    <div class="row" style="justify-content: center;">
+                                        <p style="margin: 0px">STOP</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-4" style="cursor: pointer;" id="crew_status" onclick="get_crew('${esnName}')">
+                                    <!-- <button class="btn btn-primary"><i class="nav-icon fas fa-chart-bar"> Crew</i></button> -->
+                                    <div class="row" style="justify-content: center;">
+                                        <img src="<?= base_url() ?>assets/image/status.png" width="25px" height="25px">
+                                    </div>
+                                    <div class="row" style="justify-content: center;">
+                                        <p style="margin: 0px">CREW</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-4" style="cursor: pointer;" id="fms" onclick="get_fms('${esnName}')">
+                                    <div class="row" style="justify-content: center;">
+                                        <img src="<?= base_url() ?>assets/image/fuel.png" width="25px" height="25px">
+                                    </div>
+                                    <div class="row" style="justify-content: center;">
+                                        <p style="margin: 0px">FMS</p>
+                                    </div>
+                                </div>
+                            </div>
+                            `); // Keep bindPopup here!;
 
             marker.on('click', function(event) {
                 event.target.openPopup();
@@ -314,7 +361,6 @@ if ($this->uri->segment(3)) {
 
     function realplay(value, data) {
         var iWind = 0;
-        var vessel = document.getElementById("vessel_name");
 
         var streamSecrtKey = document.getElementById("streamSecrtKey").value;
         var url = '',
@@ -335,7 +381,7 @@ if ($this->uri->segment(3)) {
             iCurrentSplit = 2;
 
         } else if (data.length <= 4) {
-            width = 800;
+            width = 600;
             height = 400;
             iWidth = 600;
             iHeight = 400;
@@ -344,7 +390,7 @@ if ($this->uri->segment(3)) {
             width = 1600;
             height = 800;
             iWidth = 1600;
-            iHeight = 1600;
+            iHeight = 800;
             iCurrentSplit = 4;
         }
 
@@ -399,7 +445,6 @@ if ($this->uri->segment(3)) {
             });
             document.getElementById("play_video").disabled = true;
             document.getElementById("stop_video").disabled = false;
-            vessel.disabled = true;
         } else {
             playwind.innerHTML = "";
             playwind.style.width = `0px`;
@@ -407,98 +452,10 @@ if ($this->uri->segment(3)) {
             jsDecoder.JS_StopRealPlayAll();
             document.getElementById("play_video").disabled = false;
             document.getElementById("stop_video").disabled = true;
-            vessel.disabled = false;
         }
+
+        checker_open();
     }
-
-    function checker_open() {
-        const play_video = document.getElementById("play_video");
-        const stop_video = document.getElementById("play_video");
-        const crew_status = document.getElementById("crew_status");
-        const fms = document.getElementById("fms");
-        const card_video = document.getElementById("card_video");
-        const card_crew = document.getElementById("card_crew");
-        const card_fms = document.getElementById("card_fms");
-    }
-
-    // function realplay(value) {
-    //     let iWind = 0; // Initialize iWind outside the loop
-    //     const vessel = document.getElementById("vessel_name");
-    //     const camera_all = <?= json_encode($camera_name) ?>;
-    //     const camera_index = camera_all.filter(item => item.cameraName === vessel.value);
-    //     const streamSecrtKey = document.getElementById("streamSecrtKey").value;
-    //     const playvideo = document.getElementById("video-play");
-    //     var url = '',
-    //         playUrl = '';
-
-
-    //     let width = 0;
-    //     let height = 0;
-
-    //     if (camera_index.length <= 2) {
-    //         width = 1200;
-    //         height = 800;
-    //     } else if (camera_index.length <= 4) {
-    //         width = 600;
-    //         height = 400;
-    //     } else {
-    //         width = 1600;
-    //         height = 800;
-    //     }
-
-    //     playvideo.innerHTML = ''; // Clear existing video divs (important!)
-
-    //     // camera_index.forEach(async (item, index) => { // Use index for player IDs
-    //     const div = document.createElement("div");
-    //     div.id = `playWind${1}`; // Use index + 1 for ID (start from 1)
-    //     div.style.width = `50%`;
-    //     div.style.height = `100%`;
-    //     div.style.padding = '10px 10px';
-    //     div.style.display = 'flex';
-    //     div.style.justifyContent = 'center';
-    //     playvideo.append(div);
-
-    //     console.log(`Creating player ${1}`);
-    //     var tempArr = camera_index[0].url_web.split('/');
-    //     if (tempArr.length > 4) {
-    //         url = 'ws://' + tempArr[2] + "/" + "001";
-    //         playUrl = tempArr[3] + "/" + tempArr[4];
-    //     } else {
-    //         alert("The format of the Preview Url is incorrect.");
-    //         return;
-    //     }
-
-    //     // var jsDecoder = new JSPlugin({
-    //     //     szId: `playWind${index + 1}`, // Use index + 1 here as well
-    //     //     iType: 2,
-    //     //     iWidth: 800,
-    //     //     iHeight: 400,
-    //     //     iMaxSplit: 1, // Adjust if needed
-    //     //     iCurrentSplit: 1, // Adjust if needed
-    //     //     szBasePath: "<?= base_url() ?>assets/dist",
-    //     //     oStyle: {
-    //     //         border: "#fff",
-    //     //         borderSelect: "#fff",
-    //     //         background: "#fff"
-    //     //     }
-    //     // });
-
-    //     if (value == "Open") {
-    //         decode_video(url, playUrl, streamSecrtKey, 0, iWind)
-
-    //         document.getElementById("play_video").disabled = true;
-    //         document.getElementById("stop_video").disabled = false;
-    //         vessel.disabled = true;
-
-    //     } else {
-    //         document.getElementById("play_video").disabled = false;
-    //         document.getElementById("stop_video").disabled = true;
-    //         vessel.disabled = false;
-    //     }
-
-    //     iWind++; // Increment iWind if you still need it for something else
-    //     // });
-    // }
 
     function decode_video(url, playUrl, streamSecrtKey, index, iWind) {
         const playerId = `playWind${index + 1}`; // Store the ID in a variable for consistency
@@ -533,5 +490,98 @@ if ($this->uri->segment(3)) {
             console.error(`Error ${index + 1}: ${error}`);
         });
 
+    }
+
+    function checker_open() {
+        var play_video = document.getElementById("play_video");
+        var stop_video = document.getElementById("stop_video");
+        var crew_status = document.getElementById("crew_status");
+        var vessel_name = document.getElementById("vessel_name");
+        var fms = document.getElementById("fms");
+        var card_video = document.getElementById("card_video");
+        var card_crew = document.getElementById("card_crew");
+        var card_fms = document.getElementById("card_fms");
+
+        if (play_video.disabled == true) {
+            card_video.hidden = false;
+        }
+
+        if (stop_video.disabled == true) {
+            card_video.hidden = true;
+        }
+
+        if (crew_status.disabled == true) {
+            card_crew.hidden = false;
+        } else {
+            card_crew.hidden = true;
+        }
+
+        if (fms.disabled == true) {
+            card_fms.hidden = false;
+        } else {
+            card_fms.hidden = true;
+        }
+    }
+
+    function get_crew(name) {
+        var check_name = vessel.filter(vs => vs.v_name == name);
+        $.ajax({
+            url: '<?= base_url() ?>reports/get_crew',
+            type: 'POST',
+            data: {
+                vessel_id: check_name[0].v_id
+            },
+            success: function(response) {
+                var data = JSON.parse(response);
+                var report_crew = document.getElementById("report_crew");
+                const crew_header = document.querySelector("#card_crew .card-header");
+                report_crew.innerHTML = `
+                    <div>
+                        <img src="<?= base_url(); ?>${data[0].file_path}"/>
+                    </div>
+                `;
+                crew_header.innerHTML = `
+                <div class="row">
+                    <h3>
+                        CREW ( ${name} )
+                    </h3>
+                </div>
+                `;
+                var crew_status = document.getElementById("crew_status");
+                crew_status.disabled = true;
+                checker_open();
+            }
+        });
+    }
+
+    function get_fms(name) {
+        var check_name = vessel.filter(vs => vs.v_name == name);
+        $.ajax({
+            url: '<?= base_url() ?>reports/get_fms',
+            type: 'POST',
+            data: {
+                vessel_id: check_name[0].v_id
+            },
+            success: function(response) {
+                var data = JSON.parse(response);
+                var report_fms = document.getElementById("report_fms");
+                const crew_header = document.querySelector("#card_fms .card-header");
+                report_fms.innerHTML = `
+                    <div>
+                        <img src="<?= base_url(); ?>${data[0].file_path}"/>
+                    </div>
+                `;
+                crew_header.innerHTML = `
+                <div class="row">
+                    <h3>
+                        FMS ( ${name} )
+                    </h3>
+                </div>
+                `;
+                var fms = document.getElementById("fms");
+                fms.disabled = true;
+                checker_open();
+            }
+        });
     }
 </script>
