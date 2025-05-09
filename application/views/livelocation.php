@@ -255,6 +255,14 @@ if ($this->uri->segment(3)) {
                                         <p style="margin: 0px">FMS</p>
                                     </div>
                                 </div>
+                                <div class="col-md-3 col-sm-4" style="cursor: pointer;" id="fms">
+                                    <div class="row" style="justify-content: center;">
+                                        <img src="<?= base_url() ?>assets/image/fuel.png" width="25px" height="25px">
+                                    </div>
+                                    <div class="row" style="justify-content: center;">
+                                        <p style="margin: 0px">FMS</p>
+                                    </div>
+                                </div>
                             </div>
                             `); // Update popup content
         } else {
@@ -328,6 +336,14 @@ if ($this->uri->segment(3)) {
                                     </div>
                                     <div class="row" style="justify-content: center;">
                                         <p style="margin: 0px">CREW</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-4" style="cursor: pointer;" id="fms" onclick="get_fms('${esnName}')">
+                                    <div class="row" style="justify-content: center;">
+                                        <img src="<?= base_url() ?>assets/image/fuel.png" width="25px" height="25px">
+                                    </div>
+                                    <div class="row" style="justify-content: center;">
+                                        <p style="margin: 0px">FMS</p>
                                     </div>
                                 </div>
                                 <div class="col-md-3 col-sm-4" style="cursor: pointer;" id="fms" onclick="get_fms('${esnName}')">

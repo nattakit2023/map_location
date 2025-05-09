@@ -138,4 +138,25 @@ class Reports extends CI_Controller
 		$result = $query->result_array();
 		echo json_encode($result);
 	}
+
+	public function pms()
+	{
+		$data['vehicles'] = $this->vehicle_model->getall_vehicle();
+		$data['fms'] = $this->fuel_model->getall_pms();
+		$this->template->template_render('pms', $data);
+	}
+
+	public function ship_cer()
+	{
+		$data['vehicles'] = $this->vehicle_model->getall_vehicle();
+		$data['fms'] = $this->fuel_model->getall_ship_cer();
+		$this->template->template_render('ship_cer', $data);
+	}
+
+	public function safety()
+	{
+		$data['vehicles'] = $this->vehicle_model->getall_vehicle();
+		$data['fms'] = $this->fuel_model->getall_safety();
+		$this->template->template_render('safety', $data);
+	}
 }

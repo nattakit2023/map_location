@@ -348,7 +348,7 @@
          key: WINDY_API_KEY,
          lat: 13.406105629697434,
          lon: 100.91933242591432,
-         zoom: 6,
+         zoom: 6,  
          mobileUI: "fullscreen",
       },
       (windyAPI) => {
@@ -368,9 +368,10 @@
                const Bearing = calculateHeading(item.latlng[1].latitude, item.latlng[1].longitude, item.latlng[0].latitude, item.latlng[0].longitude);
                const speed = calculateSpeedKnots(item.latlng[1].latitude, item.latlng[1].longitude, new Date(item.latlng[1].timestamp), item.latlng[0].latitude, item.latlng[0].longitude, new Date(item.latlng[0].timestamp));
                const index_head = (Bearing / 45).toFixed(0) <= 7 ? (Bearing / 45).toFixed(0) : 0;
-               update_location(item.latitude, item.longitude, item.esnName, item.esn, index_head, speed, Bearing);
+               const time = new Date(item.timestamp);
+               const gmtplus = new Date(time.getTime() + (7 * 60 * 60 * 1000)).toISOString();
+               update_location(item.latitude, item.longitude, item.esnName, item.esn, index_head, speed, Bearing, gmtplus);
             })
-
          }
 
          async function getData_location() {
@@ -403,7 +404,8 @@
             }
          }
 
-         function update_location(lat, lng, esnName, esn, index_head, speed, Bearing) {
+         function update_location(lat, lng, esnName, esn, index_head, speed, Bearing, timestamp) {
+            console.log(timestamp)
             const heading = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
             const svgCode = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox="0 0 14 14" version="1.1" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
                             <g transform="rotate(${Bearing},7,7)">
@@ -450,6 +452,10 @@
                                             <th>Bearing</th>
                                             <td>${Bearing.toFixed(2)} ํ</td>
                                         </tr>
+                                        <tr>
+                                            <th>TimeStamp</th>
+                                            <td>${timestamp} ํ</td>
+                                        </tr>
                                         </table>
                                     </td>
                                 </tr>
@@ -489,6 +495,10 @@
                                         <tr>
                                             <th>Bearing</th>
                                             <td>${Bearing.toFixed(2)} ํ</td>
+                                        </tr>
+                                        <tr>
+                                            <th>TimeStamp</th>
+                                            <td>${timestamp} ํ</td>
                                         </tr>
                                         </table>
                                     </td>

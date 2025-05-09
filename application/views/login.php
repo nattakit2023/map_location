@@ -105,7 +105,7 @@ if ($this->config->item('company_name') !== '') {
       <!-- /.login-card-body -->
     </div>
     <footer>
-      <p>&copy; 2021 SCM, SCO, and all rights reserved. </p>
+      <p>&copy; 2021 SCM and all rights reserved. </p>
       <p> Designed by <span>Ship Expert</span>. Version 1.0</p>
     </footer>
   </div>
