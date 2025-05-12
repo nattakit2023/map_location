@@ -28,13 +28,21 @@
                         <div class="row">
                             <div class="col-md-3 ">
                                 <div class="col-md-10">
-                                    <strong style="font-size: 18px;">Select Files </strong>
+                                    <strong style="font-size: 18px;">Select Files PNG </strong>
                                 </div>
                                 <div class="col-md-10">
-                                    <input type="file" name="files" id="files" multiple accept="image/jpeg, image/png, image/gif, image/tiff, image/svg+xml">
+                                    <input type="file" name="files" id="files" accept="image/jpeg, image/png, image/gif, image/tiff, image/svg+xml">
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3 ">
+                                <div class="col-md-10">
+                                    <strong style="font-size: 18px;">Select Files PDF </strong>
+                                </div>
+                                <div class="col-md-10">
+                                    <input type="file" name="pdf" id="pdf" accept="application/pdf">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
                                 <div class="col-md-10">
                                     <strong style="font-size: 18px;">Select Vehicle</strong>
                                 </div>
@@ -48,7 +56,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="col-md-10">
                                     <strong style="font-size: 18px;">Date</strong>
                                 </div>
@@ -56,7 +64,7 @@
                                     <input type="datetime-local" id="datetime" class="form-control rounded-0">
                                 </div>
                             </div>
-                            <div class="col-md-2" style="align-content: end;">
+                            <div class="col-md-1" style="align-content: end;">
                                 <button id="addFilesFMS" class="btn btn-block btn-primary rounded-0"><i class="fas fa-plus"></i> Add File</button>
                             </div>
                         </div>
@@ -95,6 +103,7 @@
                                             <td><?php echo $fms_data['datetime']; ?></td>
                                             <td>
                                                 <a href="<?php echo base_url($fms_data['file_path']); ?>" target="_blank"><i class="fas fa-eye"></i></a>
+                                                <a href="<?php echo base_url($fms_data['pdf_path']); ?>" target="_blank"><i class="fas fa-file"></i></a>
                                             </td>
                                         </tr>
                                         </tr>
@@ -115,8 +124,17 @@
         var formdata = new FormData();
 
         let files = $('#files')[0].files;
+        let pdf = $('#pdf')[0].files;
         let vehicle = $('#vehicle').val();
         let datetime = $('#datetime').val();
+
+        if (files.length == 0 || pdf.length == 0 || vehicle == '' || datetime == '') {
+            alert('Please Input or Select All Fields');
+            return false;
+        }
+
+        console.log(files);
+        console.log(pdf);
 
         formdata.append('vehicle', vehicle);
         formdata.append('datetime', datetime);
@@ -124,6 +142,12 @@
         for (var index = 0; index < files.length; index++) {
             formdata.append('files[]', files[index]);
         }
+
+        for (var index = 0; index < pdf.length; index++) {
+            formdata.append('pdf[]', pdf[index]);
+        }
+
+
 
         $.ajax({
             url: '<?= base_url(); ?>reports/add_fms',

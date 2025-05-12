@@ -72,16 +72,23 @@ class Reports extends CI_Controller
 		$datetime = $this->input->post('datetime');
 
 		$files = $_FILES['files'];
+		$pdf = $_FILES['pdf'];
 
 		foreach ($files['name'] as $index => $name) {
 			$filename = $name;
 			$fileTmp = $files['tmp_name'][$index];
 			$filePath = "assets/uploads/report/fms/" . $vehicle . "/" . $name;
+			$pdfname = $pdf['name'][$index];
+			$pdfTmp = $pdf['tmp_name'][$index];
+			$pdfPath = "assets/uploads/report/fms/" . $vehicle . "/" . $pdfname;
 
 			move_uploaded_file($fileTmp, $filePath);
 			chmod("$filePath", 0755);
 
-			$this->fuel_model->add_fms(["file_name" => $filename, "file_tmp" => $fileTmp, "file_path" => $filePath, "vessel_id" => $vehicle, "datetime" => $datetime]);
+			move_uploaded_file($pdfTmp, $pdfPath);
+			chmod("$pdfPath", 0755);
+
+			$this->fuel_model->add_fms(["file_name" => $filename, "file_tmp" => $fileTmp, "file_path" => $filePath, "pdf_name" => $pdfname, "pdf_tmp" => $pdfTmp, "pdf_path" => $pdfPath, "vessel_id" => $vehicle, "datetime" => $datetime]);
 		}
 
 		$this->session->set_flashdata('successmessage', 'New FMS Report added successfully..');
@@ -146,6 +153,71 @@ class Reports extends CI_Controller
 		$this->template->template_render('pms', $data);
 	}
 
+	public function add_pms()
+	{
+		$vehicle = $this->input->post('vehicle');
+		$datetime = $this->input->post('datetime');
+
+		$files = $_FILES['files'];
+
+		foreach ($files['name'] as $index => $name) {
+			$filename = $name;
+			$fileTmp = $files['tmp_name'][$index];
+			$filePath = "assets/uploads/report/pms/" . $vehicle . "/" . $name;
+
+			move_uploaded_file($fileTmp, $filePath);
+			chmod("$filePath", 0755);
+
+			$this->fuel_model->add_pms(["file_name" => $filename, "file_tmp" => $fileTmp, "file_path" => $filePath, "vessel_id" => $vehicle, "datetime" => $datetime]);
+		}
+
+		$this->session->set_flashdata('successmessage', 'New PMS Report added successfully..');
+	}
+
+	public function get_pms()
+	{
+		$vessel_id = $this->input->post('vessel_id');
+		$this->db->select('*');
+		$this->db->from('pms');
+		$this->db->where('vessel_id', $vessel_id);
+		$this->db->order_by('datetime DESC');
+		$query = $this->db->get();
+		$result = $query->result_array();
+		echo json_encode($result);
+	}
+
+	public function add_pms_all()
+	{
+		$datetime = $this->input->post('datetime');
+
+		$files = $_FILES['files'];
+
+		foreach ($files['name'] as $index => $name) {
+			$filename = $name;
+			$fileTmp = $files['tmp_name'][$index];
+			$filePath = "assets/uploads/report/pms/" . $vehicle . "/" . $name;
+
+			move_uploaded_file($fileTmp, $filePath);
+			chmod("$filePath", 0755);
+
+			$this->fuel_model->add_pms_all(["file_name" => $filename, "file_tmp" => $fileTmp, "file_path" => $filePath, "datetime" => $datetime]);
+		}
+
+		$this->session->set_flashdata('successmessage', 'New PMS Report added successfully..');
+	}
+
+	public function get_pms_all()
+	{
+		$vessel_id = $this->input->post('vessel_id');
+		$this->db->select('*');
+		$this->db->from('pms_all');
+		$this->db->where('vessel_id', $vessel_id);
+		$this->db->order_by('datetime DESC');
+		$query = $this->db->get();
+		$result = $query->result_array();
+		echo json_encode($result);
+	}
+
 	public function ship_cer()
 	{
 		$data['vehicles'] = $this->vehicle_model->getall_vehicle();
@@ -153,10 +225,76 @@ class Reports extends CI_Controller
 		$this->template->template_render('ship_cer', $data);
 	}
 
+	public function add_ship_cer()
+	{
+		$vehicle = $this->input->post('vehicle');
+		$datetime = $this->input->post('datetime');
+
+		$files = $_FILES['files'];
+
+		foreach ($files['name'] as $index => $name) {
+			$filename = $name;
+			$fileTmp = $files['tmp_name'][$index];
+			$filePath = "assets/uploads/report/ship_certificate/" . $vehicle . "/" . $name;
+
+			move_uploaded_file($fileTmp, $filePath);
+			chmod("$filePath", 0755);
+
+			$this->fuel_model->add_ship_cer(["file_name" => $filename, "file_tmp" => $fileTmp, "file_path" => $filePath, "vessel_id" => $vehicle, "datetime" => $datetime]);
+		}
+
+		$this->session->set_flashdata('successmessage', 'New Ship Certificate Report added successfully..');
+	}
+
+	public function get_ship_cer()
+	{
+		$vessel_id = $this->input->post('vessel_id');
+		$this->db->select('*');
+		$this->db->from('ship_cer');
+		$this->db->where('vessel_id', $vessel_id);
+		$this->db->order_by('datetime DESC');
+		$query = $this->db->get();
+		$result = $query->result_array();
+		echo json_encode($result);
+	}
+
 	public function safety()
 	{
 		$data['vehicles'] = $this->vehicle_model->getall_vehicle();
 		$data['fms'] = $this->fuel_model->getall_safety();
 		$this->template->template_render('safety', $data);
+	}
+
+	public function add_safety()
+	{
+		$vehicle = $this->input->post('vehicle');
+		$datetime = $this->input->post('datetime');
+
+		$files = $_FILES['files'];
+
+		foreach ($files['name'] as $index => $name) {
+			$filename = $name;
+			$fileTmp = $files['tmp_name'][$index];
+			$filePath = "assets/uploads/report/safety/" . $vehicle . "/" . $name;
+
+			move_uploaded_file($fileTmp, $filePath);
+			chmod("$filePath", 0755);
+
+			$this->fuel_model->add_safety(["file_name" => $filename, "file_tmp" => $fileTmp, "file_path" => $filePath, "vessel_id" => $vehicle, "datetime" => $datetime]);
+		}
+
+		$this->session->set_flashdata('successmessage', 'New Safety Report added successfully..');
+	}
+
+	public function get_safety()
+	{
+		$vessel_id = $this->input->post('vessel_id');
+		$this->db->select('*');
+		$this->db->from('safety');
+		$this->db->where('vessel_id', $vessel_id);
+		$this->db->order_by('datetime DESC');
+		$query = $this->db->get();
+		$result = $query->result_array();
+		echo json_encode($result);
 	}
 }

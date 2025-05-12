@@ -50,6 +50,39 @@ if ($this->uri->segment(3)) {
                         </div>
                     </div>
                 </div>
+                <div class="card rounded-0" id="card_pms" hidden>
+                    <div class="card-header bg-light rounded-0">
+                        <h3>
+                            PMS Report
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="report_pms" style="display: flex; justify-content: center;">
+                        </div>
+                    </div>
+                </div>
+                <div class="card rounded-0" id="card_ship_cer" hidden>
+                    <div class="card-header bg-light rounded-0">
+                        <h3>
+                            Ship Certificate Report
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="report_ship_cer" style="display: flex; justify-content: center;">
+                        </div>
+                    </div>
+                </div>
+                <div class="card rounded-0" id="card_safety" hidden>
+                    <div class="card-header bg-light rounded-0">
+                        <h3>
+                            Safety Report
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="report_safety" style="display: flex; justify-content: center;">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -255,7 +288,23 @@ if ($this->uri->segment(3)) {
                                         <p style="margin: 0px">FMS</p>
                                     </div>
                                 </div>
-                                <div class="col-md-3 col-sm-4" style="cursor: pointer;" id="fms">
+                                <div class="col-md-3 col-sm-4" style="cursor: pointer;" id="pms">
+                                    <div class="row" style="justify-content: center;">
+                                        <img src="<?= base_url() ?>assets/image/fuel.png" width="25px" height="25px">
+                                    </div>
+                                    <div class="row" style="justify-content: center;">
+                                        <p style="margin: 0px">FMS</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-4" style="cursor: pointer;" id="ship_cer">
+                                    <div class="row" style="justify-content: center;">
+                                        <img src="<?= base_url() ?>assets/image/fuel.png" width="25px" height="25px">
+                                    </div>
+                                    <div class="row" style="justify-content: center;">
+                                        <p style="margin: 0px">FMS</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-4" style="cursor: pointer;" id="safety">
                                     <div class="row" style="justify-content: center;">
                                         <img src="<?= base_url() ?>assets/image/fuel.png" width="25px" height="25px">
                                     </div>
@@ -346,12 +395,28 @@ if ($this->uri->segment(3)) {
                                         <p style="margin: 0px">FMS</p>
                                     </div>
                                 </div>
-                                <div class="col-md-3 col-sm-4" style="cursor: pointer;" id="fms" onclick="get_fms('${esnName}')">
+                                <div class="col-md-4 col-sm-4" style="cursor: pointer;" id="pms" onclick="get_pms('${esnName}')">
                                     <div class="row" style="justify-content: center;">
                                         <img src="<?= base_url() ?>assets/image/fuel.png" width="25px" height="25px">
                                     </div>
                                     <div class="row" style="justify-content: center;">
-                                        <p style="margin: 0px">FMS</p>
+                                        <p style="margin: 0px">PMS</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4" style="cursor: pointer;" id="ship_cer" onclick="get_ship_cer('${esnName}')">
+                                    <div class="row" style="justify-content: center;">
+                                        <img src="<?= base_url() ?>assets/image/fuel.png" width="25px" height="25px">
+                                    </div>
+                                    <div class="row" style="justify-content: center;">
+                                        <p style="margin: 0px">S.Cert</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4" style="cursor: pointer;" id="safety" onclick="get_safety('${esnName}')">
+                                    <div class="row" style="justify-content: center;">
+                                        <img src="<?= base_url() ?>assets/image/fuel.png" width="25px" height="25px">
+                                    </div>
+                                    <div class="row" style="justify-content: center;">
+                                        <p style="margin: 0px">Safety</p>
                                     </div>
                                 </div>
                             </div>
@@ -510,9 +575,12 @@ if ($this->uri->segment(3)) {
     function checker_open() {
         var play_video = document.getElementById("play_video");
         var stop_video = document.getElementById("stop_video");
-        var crew_status = document.getElementById("crew_status");
         var vessel_name = document.getElementById("vessel_name");
+        var crew_status = document.getElementById("crew_status");
         var fms = document.getElementById("fms");
+        var pms = document.getElementById("pms");
+        var ship_cer = document.getElementById("ship_cer");
+        var safety = document.getElementById("safety");
         var card_video = document.getElementById("card_video");
         var card_crew = document.getElementById("card_crew");
         var card_fms = document.getElementById("card_fms");
@@ -536,6 +604,29 @@ if ($this->uri->segment(3)) {
         } else {
             card_fms.hidden = true;
         }
+
+        if (pms.disabled == true) {
+            card_pms.hidden = false;
+        } else {
+            card_pms.hidden = true;
+        }
+
+        if (ship_cer.disabled == true) {
+            card_ship_cer.hidden = false;
+        } else {
+            card_ship_cer.hidden = true;
+        }
+
+        if (safety.disabled == true) {
+            card_safety.hidden = false;
+        } else {
+            card_safety.hidden = true;
+        }
+    }
+
+    function hide_card(name){
+        var card = document.getElementById(`card_${name}`);
+        card.hidden = true;
     }
 
     function get_crew(name) {
@@ -557,6 +648,9 @@ if ($this->uri->segment(3)) {
                 `;
                 crew_header.innerHTML = `
                 <div class="row">
+                    <h3 style="cursor: pointer;margin-right: 10px;" >
+                        <a onclick="hide_card('crew')"> <i class="fas fa-times"></i></a>
+                    </h3>
                     <h3>
                         CREW ( ${name} )
                     </h3>
@@ -588,13 +682,121 @@ if ($this->uri->segment(3)) {
                 `;
                 crew_header.innerHTML = `
                 <div class="row">
+                    <h3 style="cursor: pointer;margin-right: 10px;" >
+                        <a onclick="hide_card('fms')"> <i class="fas fa-times"></i></a>
+                    </h3>
+                    <h3 style="margin-right: 10px;">
+                        FMS ( ${name} ) 
+                    </h3>
                     <h3>
-                        FMS ( ${name} )
+                        <a href="<?= base_url(); ?>${data[0].pdf_path}" target="_blank"><i class="fas fa-file"></i></a>
                     </h3>
                 </div>
                 `;
                 var fms = document.getElementById("fms");
                 fms.disabled = true;
+                checker_open();
+            }
+        });
+    }
+
+    function get_ship_cer(name) {
+        var check_name = vessel.filter(vs => vs.v_name == name);
+        $.ajax({
+            url: '<?= base_url() ?>reports/get_ship_cer',
+            type: 'POST',
+            data: {
+                vessel_id: check_name[0].v_id
+            },
+            success: function(response) {
+                var data = JSON.parse(response);
+                var report_ship_cer = document.getElementById("report_ship_cer");
+                const crew_header = document.querySelector("#card_ship_cer .card-header");
+                report_ship_cer.innerHTML = `
+                    <div>
+                        <img src="<?= base_url(); ?>${data[0].file_path}" width="100%" height="100%"/>
+                    </div>
+                `;
+                crew_header.innerHTML = `
+                <div class="row">
+                    <h3 style="cursor: pointer;margin-right: 10px;" >
+                        <a onclick="hide_card('ship_cer')"> <i class="fas fa-times"></i></a>
+                    </h3>
+                    <h3>
+                        Ship Certificate ( ${name} ) 
+                    </h3>
+                </div>
+                `;
+                var ship_cer = document.getElementById("ship_cer");
+                ship_cer.disabled = true;
+                checker_open();
+            }
+        });
+    }
+
+    function get_pms(name) {
+        var check_name = vessel.filter(vs => vs.v_name == name);
+        $.ajax({
+            url: '<?= base_url() ?>reports/get_pms',
+            type: 'POST',
+            data: {
+                vessel_id: check_name[0].v_id
+            },
+            success: function(response) {
+                var data = JSON.parse(response);
+                var report_pms = document.getElementById("report_pms");
+                const crew_header = document.querySelector("#card_pms .card-header");
+                report_pms.innerHTML = `
+                    <div>
+                        <img src="<?= base_url(); ?>${data[0].file_path}" width="100%" height="100%"/>
+                    </div>
+                `;
+                crew_header.innerHTML = `
+                <div class="row">
+                    <h3 style="cursor: pointer;margin-right: 10px;" >
+                        <a onclick="hide_card('pms')"> <i class="fas fa-times"></i></a>
+                    </h3>
+                    <h3>
+                        Ship Certificate ( ${name} ) 
+                    </h3>
+                </div>
+                `;
+                var pms = document.getElementById("pms");
+                pms.disabled = true;
+                checker_open();
+            }
+        });
+    }
+
+    function get_safety(name) {
+        var check_name = vessel.filter(vs => vs.v_name == name);
+        $.ajax({
+            url: '<?= base_url() ?>reports/get_safety',
+            type: 'POST',
+            data: {
+                vessel_id: check_name[0].v_id
+            },
+            success: function(response) {
+                var data = JSON.parse(response);
+                var report_safety = document.getElementById("report_safety");
+                const crew_header = document.querySelector("#card_safety .card-header");
+                report_safety.innerHTML = `
+                    <div>
+                        <img src="<?= base_url(); ?>${data[0].file_path}" width="100%" height="100%"/>
+                    </div>
+                `;
+                crew_header.innerHTML = `
+                <div class="row">
+                    <h3 style="cursor: pointer;margin-right: 10px;" >
+                        <a onclick="hide_card('safety')"> <i class="fas fa-times"></i></a>
+                    </h3>
+                    <h3>
+                        Ship Certificate ( ${name} ) 
+                    </h3>
+                </div>
+                `;
+                var safety = document.getElementById("safety");
+                safety.disabled = true;
                 checker_open();
             }
         });

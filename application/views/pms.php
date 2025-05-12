@@ -2,13 +2,13 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark">FMS
+                <h1 class="m-0 text-dark">PMS
                 </h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="<?= base_url(); ?>/dashboard">Dashboard</a></li>
-                    <li class="breadcrumb-item active">FMS</li>
+                    <li class="breadcrumb-item active">PMS</li>
                 </ol>
             </div>
         </div>
@@ -21,7 +21,7 @@
                 <div class="card rounded-0">
                     <div class="card-header bg-light rounded-0">
                         <h3>
-                            Add FMS Report
+                            Add PMS Report
                         </h3>
                     </div>
                     <div class="card-body">
@@ -46,6 +46,7 @@
                                         <?php }
                                         } ?>
                                     </select>
+                                    <input type="checkbox" id="check_all" name="check_all" value="1"> Add All</input>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -70,7 +71,7 @@
                 <div class="card rounded-0">
                     <div class="card-header bg-light rounded-0">
                         <h3>
-                            FMS Report List
+                            PMS Report List
                         </h3>
                     </div>
                     <div class="card-body">
@@ -125,15 +126,33 @@
             formdata.append('files[]', files[index]);
         }
 
-        $.ajax({
-            url: '<?= base_url(); ?>reports/add_fms',
-            type: 'POST',
-            data: formdata,
-            contentType: false,
-            processData: false,
-            success: function(response) {
-                location.reload();
-            }
-        });
+        if ($('#check_all').prop('checked') == true) {
+            $.ajax({
+                url: '<?= base_url(); ?>reports/add_pms_all',
+                type: 'POST',
+                data: formdata,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    location.reload();
+                }
+            });
+        } else {
+            $.ajax({
+                url: '<?= base_url(); ?>reports/add_pms',
+                type: 'POST',
+                data: formdata,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    location.reload();
+                }
+            });
+        }
+    })
+
+    $(document).on('click', '#check_all', function() {
+        let check = $(this).prop('checked');
+        $('#vehicle').prop('disabled', check);
     })
 </script>

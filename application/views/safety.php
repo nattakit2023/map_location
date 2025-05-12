@@ -2,13 +2,13 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark">FMS
+                <h1 class="m-0 text-dark">Safety
                 </h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="<?= base_url(); ?>/dashboard">Dashboard</a></li>
-                    <li class="breadcrumb-item active">FMS</li>
+                    <li class="breadcrumb-item active">Safety</li>
                 </ol>
             </div>
         </div>
@@ -21,7 +21,7 @@
                 <div class="card rounded-0">
                     <div class="card-header bg-light rounded-0">
                         <h3>
-                            Add FMS Report
+                            Add Safety Report
                         </h3>
                     </div>
                     <div class="card-body">
@@ -70,7 +70,7 @@
                 <div class="card rounded-0">
                     <div class="card-header bg-light rounded-0">
                         <h3>
-                            FMS Report List
+                            Safety Report List
                         </h3>
                     </div>
                     <div class="card-body">
@@ -126,7 +126,7 @@
         }
 
         $.ajax({
-            url: '<?= base_url(); ?>reports/add_fms',
+            url: '<?= base_url(); ?>reports/add_safety',
             type: 'POST',
             data: formdata,
             contentType: false,

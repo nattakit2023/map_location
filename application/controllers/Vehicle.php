@@ -39,10 +39,19 @@ class Vehicle extends CI_Controller
 			if ($response) {
 				$target = "assets/uploads/report/fms/" . $response;
 				$target2 = "assets/uploads/report/crew/" . $response;
+				$target3 = "assets/uploads/report/ship_certificate/" . $response;
+				$target4 = "assets/uploads/report/safety/" . $response;
+				$target5 = "assets/uploads/report/pms/" . $response;
 				mkdir("$target");
 				chmod("$target", 0755);
 				mkdir("$target2");
 				chmod("$target2", 0755);
+				mkdir("$target3");
+				chmod("$target3", 0755);
+				mkdir("$target4");
+				chmod("$target4", 0755);
+				mkdir("$target5");
+				chmod("$target5", 0755);
 				$this->session->set_flashdata('successmessage', 'New vehicle added successfully..');
 				redirect('vehicle');
 			}

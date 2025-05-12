@@ -238,11 +238,46 @@
 
 <section class="content">
    <div class="container-fluid">
-      <div class="row">
-         <div class="col-md-12">
+      <!-- <div class="row">
+         <div class="col-md-8">
             <div class="card rounded-0">
+               <div class="card-header">
+                  <h3>Map Windys</h3>
+               </div>
                <div class="card-body">
-                  <div id="windy" style="width: 100%; height: 715px;"></div>
+                  <div id="windy" style="width: 100%; height: 650px;"></div>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-4">
+            <div class="card rouded-0">
+               <div class="card-header">
+                  <h3>PMS Overview</h3>
+               </div>
+               <div class="card-body">
+                  <img src="" alt="">
+               </div>
+            </div>
+         </div>
+      </div> -->
+      <div class="row">
+         <div class="col-md-6">
+            <div class="card rounded-0">
+               <div class="card-header">
+                  <h3>Map Windys</h3>
+               </div>
+               <div class="card-body">
+                  <div id="windy" style="width: 100%; height: 650px;"></div>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-6">
+            <div class="card rouded-0">
+               <div class="card-header">
+                  <h3>PMS Overview</h3>
+               </div>
+               <div class="card-body">
+                  <img src="" alt="">
                </div>
             </div>
          </div>
@@ -348,7 +383,7 @@
          key: WINDY_API_KEY,
          lat: 13.406105629697434,
          lon: 100.91933242591432,
-         zoom: 6,  
+         zoom: 6,
          mobileUI: "fullscreen",
       },
       (windyAPI) => {

@@ -76,6 +76,11 @@ class Fuel_model extends CI_Model
 		return $this->db->get()->result_array();
 	}
 
+	public function add_pms($data)
+	{
+		return	$this->db->insert('pms', $data);
+	}
+
 	public function getall_pms()
 	{
 		$this->db->select('*')->from('pms')->join('vehicles', 'pms.vessel_id = vehicles.v_id', 'left');
@@ -83,11 +88,33 @@ class Fuel_model extends CI_Model
 		return $this->db->get()->result_array();
 	}
 
+	public function add_pms_all($data)
+	{
+		return	$this->db->insert('pms_all', $data);
+	}
+
+	public function getall_pms_all()
+	{
+		$this->db->select('*')->from('pms_all');
+
+		return $this->db->get()->result_array();
+	}
+
+	public function add_ship_cer($data)
+	{
+		return	$this->db->insert('ship_cer', $data);
+	}
+
 	public function getall_ship_cer()
 	{
 		$this->db->select('*')->from('ship_cer')->join('vehicles', 'ship_cer.vessel_id = vehicles.v_id', 'left');
 
 		return $this->db->get()->result_array();
+	}
+
+	public function add_safety($data)
+	{
+		return	$this->db->insert('safety', $data);
 	}
 
 	public function getall_safety()
