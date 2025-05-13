@@ -95,7 +95,7 @@ class Fuel_model extends CI_Model
 
 	public function getall_pms_all()
 	{
-		$this->db->select('*')->from('pms_all');
+		$this->db->select('*')->from('pms_all')->order_by('id', 'desc');
 
 		return $this->db->get()->result_array();
 	}

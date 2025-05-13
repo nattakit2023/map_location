@@ -33,7 +33,6 @@ class Dashboard extends CI_Controller
                 }
             }
         }
-        $data['geofenceevents'] = $returndata;
 
         $this->template->template_render('dashboard', $data);
     }

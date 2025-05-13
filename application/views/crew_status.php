@@ -28,7 +28,7 @@
                         <div class="row">
                             <div class="col-md-3 ">
                                 <div class="col-md-10">
-                                    <strong style="font-size: 18px;">Select Files </strong>
+                                    <strong style="font-size: 18px;">Select Image file </strong>
                                 </div>
                                 <div class="col-md-10">
                                     <input type="file" name="files" id="files" multiple accept="image/jpeg, image/png, image/gif, image/tiff, image/svg+xml">

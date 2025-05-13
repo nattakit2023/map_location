@@ -203,15 +203,13 @@ class Reports extends CI_Controller
 			$this->fuel_model->add_pms_all(["file_name" => $filename, "file_tmp" => $fileTmp, "file_path" => $filePath, "datetime" => $datetime]);
 		}
 
-		$this->session->set_flashdata('successmessage', 'New PMS Report added successfully..');
+		$this->session->set_flashdata('successmessage', 'New Safety Report to Dashboard added successfully..');
 	}
 
 	public function get_pms_all()
 	{
-		$vessel_id = $this->input->post('vessel_id');
 		$this->db->select('*');
 		$this->db->from('pms_all');
-		$this->db->where('vessel_id', $vessel_id);
 		$this->db->order_by('datetime DESC');
 		$query = $this->db->get();
 		$result = $query->result_array();
@@ -262,6 +260,7 @@ class Reports extends CI_Controller
 	{
 		$data['vehicles'] = $this->vehicle_model->getall_vehicle();
 		$data['fms'] = $this->fuel_model->getall_safety();
+		$data['safety_all'] = $this->fuel_model->getall_pms_all();
 		$this->template->template_render('safety', $data);
 	}
 

@@ -288,28 +288,28 @@ if ($this->uri->segment(3)) {
                                         <p style="margin: 0px">FMS</p>
                                     </div>
                                 </div>
-                                <div class="col-md-3 col-sm-4" style="cursor: pointer;" id="pms">
+                                <div class="col-md-4 col-sm-4" style="cursor: pointer;" id="pms" onclick="get_pms('${esnName}')">
                                     <div class="row" style="justify-content: center;">
-                                        <img src="<?= base_url() ?>assets/image/fuel.png" width="25px" height="25px">
+                                        <img src="<?= base_url() ?>assets/image/pms.png" width="25px" height="25px">
                                     </div>
                                     <div class="row" style="justify-content: center;">
-                                        <p style="margin: 0px">FMS</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sm-4" style="cursor: pointer;" id="ship_cer">
-                                    <div class="row" style="justify-content: center;">
-                                        <img src="<?= base_url() ?>assets/image/fuel.png" width="25px" height="25px">
-                                    </div>
-                                    <div class="row" style="justify-content: center;">
-                                        <p style="margin: 0px">FMS</p>
+                                        <p style="margin: 0px">PMS</p>
                                     </div>
                                 </div>
-                                <div class="col-md-3 col-sm-4" style="cursor: pointer;" id="safety">
+                                <div class="col-md-4 col-sm-4" style="cursor: pointer;" id="ship_cer" onclick="get_ship_cer('${esnName}')">
                                     <div class="row" style="justify-content: center;">
-                                        <img src="<?= base_url() ?>assets/image/fuel.png" width="25px" height="25px">
+                                        <img src="<?= base_url() ?>assets/image/certificate.png" width="25px" height="25px">
                                     </div>
                                     <div class="row" style="justify-content: center;">
-                                        <p style="margin: 0px">FMS</p>
+                                        <p style="margin: 0px">S.Cert</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4" style="cursor: pointer;" id="safety" onclick="get_safety('${esnName}')">
+                                    <div class="row" style="justify-content: center;">
+                                        <img src="<?= base_url() ?>assets/image/safety.png" width="25px" height="25px">
+                                    </div>
+                                    <div class="row" style="justify-content: center;">
+                                        <p style="margin: 0px">Safety</p>
                                     </div>
                                 </div>
                             </div>
@@ -397,7 +397,7 @@ if ($this->uri->segment(3)) {
                                 </div>
                                 <div class="col-md-4 col-sm-4" style="cursor: pointer;" id="pms" onclick="get_pms('${esnName}')">
                                     <div class="row" style="justify-content: center;">
-                                        <img src="<?= base_url() ?>assets/image/fuel.png" width="25px" height="25px">
+                                        <img src="<?= base_url() ?>assets/image/pms.png" width="25px" height="25px">
                                     </div>
                                     <div class="row" style="justify-content: center;">
                                         <p style="margin: 0px">PMS</p>
@@ -405,7 +405,7 @@ if ($this->uri->segment(3)) {
                                 </div>
                                 <div class="col-md-4 col-sm-4" style="cursor: pointer;" id="ship_cer" onclick="get_ship_cer('${esnName}')">
                                     <div class="row" style="justify-content: center;">
-                                        <img src="<?= base_url() ?>assets/image/fuel.png" width="25px" height="25px">
+                                        <img src="<?= base_url() ?>assets/image/certificate.png" width="25px" height="25px">
                                     </div>
                                     <div class="row" style="justify-content: center;">
                                         <p style="margin: 0px">S.Cert</p>
@@ -413,7 +413,7 @@ if ($this->uri->segment(3)) {
                                 </div>
                                 <div class="col-md-4 col-sm-4" style="cursor: pointer;" id="safety" onclick="get_safety('${esnName}')">
                                     <div class="row" style="justify-content: center;">
-                                        <img src="<?= base_url() ?>assets/image/fuel.png" width="25px" height="25px">
+                                        <img src="<?= base_url() ?>assets/image/safety.png" width="25px" height="25px">
                                     </div>
                                     <div class="row" style="justify-content: center;">
                                         <p style="margin: 0px">Safety</p>
@@ -624,7 +624,7 @@ if ($this->uri->segment(3)) {
         }
     }
 
-    function hide_card(name){
+    function hide_card(name) {
         var card = document.getElementById(`card_${name}`);
         card.hidden = true;
     }
@@ -643,7 +643,7 @@ if ($this->uri->segment(3)) {
                 const crew_header = document.querySelector("#card_crew .card-header");
                 report_crew.innerHTML = `
                     <div>
-                        <img src="<?= base_url(); ?>${data[0].file_path}" width="100%" height="100%"/>
+                        <img src="<?= base_url(); ?>${data[0].file_path}" width="100%" height="600px"/>
                     </div>
                 `;
                 crew_header.innerHTML = `
@@ -677,7 +677,7 @@ if ($this->uri->segment(3)) {
                 const crew_header = document.querySelector("#card_fms .card-header");
                 report_fms.innerHTML = `
                     <div>
-                        <img src="<?= base_url(); ?>${data[0].file_path}" width="100%" height="100%"/>
+                        <img src="<?= base_url(); ?>${data[0].file_path}" width="100%" height="600px"/>
                     </div>
                 `;
                 crew_header.innerHTML = `
@@ -691,6 +691,7 @@ if ($this->uri->segment(3)) {
                     <h3>
                         <a href="<?= base_url(); ?>${data[0].pdf_path}" target="_blank"><i class="fas fa-file"></i></a>
                     </h3>
+                        <strong style="color: red; padding-left: 10px; align-content: center;"> * Click to open PDF</strong>
                 </div>
                 `;
                 var fms = document.getElementById("fms");
@@ -714,7 +715,7 @@ if ($this->uri->segment(3)) {
                 const crew_header = document.querySelector("#card_ship_cer .card-header");
                 report_ship_cer.innerHTML = `
                     <div>
-                        <img src="<?= base_url(); ?>${data[0].file_path}" width="100%" height="100%"/>
+                        <img src="<?= base_url(); ?>${data[0].file_path}" width="100%" height="600px"/>
                     </div>
                 `;
                 crew_header.innerHTML = `
@@ -748,7 +749,7 @@ if ($this->uri->segment(3)) {
                 const crew_header = document.querySelector("#card_pms .card-header");
                 report_pms.innerHTML = `
                     <div>
-                        <img src="<?= base_url(); ?>${data[0].file_path}" width="100%" height="100%"/>
+                        <img src="<?= base_url(); ?>${data[0].file_path}" width="100%" height="600px"/>
                     </div>
                 `;
                 crew_header.innerHTML = `
@@ -757,7 +758,7 @@ if ($this->uri->segment(3)) {
                         <a onclick="hide_card('pms')"> <i class="fas fa-times"></i></a>
                     </h3>
                     <h3>
-                        Ship Certificate ( ${name} ) 
+                        PMS ( ${name} ) 
                     </h3>
                 </div>
                 `;
@@ -782,7 +783,7 @@ if ($this->uri->segment(3)) {
                 const crew_header = document.querySelector("#card_safety .card-header");
                 report_safety.innerHTML = `
                     <div>
-                        <img src="<?= base_url(); ?>${data[0].file_path}" width="100%" height="100%"/>
+                        <img src="<?= base_url(); ?>${data[0].file_path}" width="100%"  height="600px"/>
                     </div>
                 `;
                 crew_header.innerHTML = `
@@ -791,7 +792,7 @@ if ($this->uri->segment(3)) {
                         <a onclick="hide_card('safety')"> <i class="fas fa-times"></i></a>
                     </h3>
                     <h3>
-                        Ship Certificate ( ${name} ) 
+                        Safety ( ${name} ) 
                     </h3>
                 </div>
                 `;

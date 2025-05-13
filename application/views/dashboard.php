@@ -239,7 +239,7 @@
 <section class="content">
    <div class="container-fluid">
       <!-- <div class="row">
-         <div class="col-md-8">
+         <div class="col-md-7">
             <div class="card rounded-0">
                <div class="card-header">
                   <h3>Map Windys</h3>
@@ -249,13 +249,12 @@
                </div>
             </div>
          </div>
-         <div class="col-md-4">
+         <div class="col-md-5">
             <div class="card rouded-0">
                <div class="card-header">
-                  <h3>PMS Overview</h3>
+                  <h3>Safety Overview</h3>
                </div>
-               <div class="card-body">
-                  <img src="" alt="">
+               <div class="card-body" id="safety_overview">
                </div>
             </div>
          </div>
@@ -264,20 +263,19 @@
          <div class="col-md-6">
             <div class="card rounded-0">
                <div class="card-header">
-                  <h3>Map Windys</h3>
+                  <h5>Map Windys</h5>
                </div>
                <div class="card-body">
-                  <div id="windy" style="width: 100%; height: 650px;"></div>
+                  <div id="windy" style="width: 100%; height: 660px;"></div>
                </div>
             </div>
          </div>
          <div class="col-md-6">
             <div class="card rouded-0">
                <div class="card-header">
-                  <h3>PMS Overview</h3>
+                  <h5>Safety Overview</h5>
                </div>
-               <div class="card-body">
-                  <img src="" alt="">
+               <div class="card-body" id="safety_overview">
                </div>
             </div>
          </div>
@@ -378,6 +376,29 @@
       return [lat, lon];
    }
 
+   function get_safety() {
+      $.ajax({
+         url: "<?= base_url() ?>reports/get_pms_all",
+         method: "GET",
+         success: (res) => {
+            var data = JSON.parse(res);
+            var report_safety = document.getElementById("safety_overview");
+
+            report_safety.innerHTML = `
+                    <div>
+                        <img src="<?= base_url(); ?>${data[0].file_path}" width="100%" height="660px"/>
+                    </div>
+                `;
+            return res;
+         },
+         error: function(xhr, status, error) {}
+      })
+   }
+
+   $(document).ready(function() {
+      get_safety();
+   });
+
    // Initialize Windy Map
    windyInit({
          key: WINDY_API_KEY,
@@ -416,11 +437,7 @@
                success: (res) => {
                   return res;
                },
-               error: function(xhr, status, error) {
-                  console.error("Error:", status, error);
-                  console.log("Response:", xhr.responseText); // Check the full error response
-                  // Handle the error
-               }
+               error: function(xhr, status, error) {}
             })
             return data;
          }
@@ -440,7 +457,6 @@
          }
 
          function update_location(lat, lng, esnName, esn, index_head, speed, Bearing, timestamp) {
-            console.log(timestamp)
             const heading = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
             const svgCode = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox="0 0 14 14" version="1.1" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
                             <g transform="rotate(${Bearing},7,7)">
@@ -545,7 +561,6 @@
                })
 
                markers[esn] = marker; // Store the marker using esn as the key
-               console.log("Update Marker Successfully")
 
             }
          }

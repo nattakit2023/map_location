@@ -28,7 +28,7 @@
                         <div class="row">
                             <div class="col-md-3 ">
                                 <div class="col-md-10">
-                                    <strong style="font-size: 18px;">Select Files PNG </strong>
+                                    <strong style="font-size: 18px;">Select Image file </strong>
                                 </div>
                                 <div class="col-md-10">
                                     <input type="file" name="files" id="files" accept="image/jpeg, image/png, image/gif, image/tiff, image/svg+xml">
@@ -36,10 +36,10 @@
                             </div>
                             <div class="col-md-3 ">
                                 <div class="col-md-10">
-                                    <strong style="font-size: 18px;">Select Files PDF </strong>
+                                    <strong style="font-size: 18px;">Select PDF file </strong>
                                 </div>
                                 <div class="col-md-10">
-                                    <input type="file" name="pdf" id="pdf" accept="application/pdf">
+                                    <input type="file" name="pdf" id="pdf" accept="pdf">
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -103,7 +103,9 @@
                                             <td><?php echo $fms_data['datetime']; ?></td>
                                             <td>
                                                 <a href="<?php echo base_url($fms_data['file_path']); ?>" target="_blank"><i class="fas fa-eye"></i></a>
-                                                <a href="<?php echo base_url($fms_data['pdf_path']); ?>" target="_blank"><i class="fas fa-file"></i></a>
+                                                <?php if ($fms_data['pdf_path'] != '') { ?>
+                                                    <a href="<?php echo base_url($fms_data['pdf_path']); ?>" target="_blank"><i class="fas fa-file"></i></a>
+                                                <?php } ?>
                                             </td>
                                         </tr>
                                         </tr>

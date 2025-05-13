@@ -28,7 +28,7 @@
                         <div class="row">
                             <div class="col-md-3 ">
                                 <div class="col-md-10">
-                                    <strong style="font-size: 18px;">Select Files </strong>
+                                    <strong style="font-size: 18px;">Select Image file </strong>
                                 </div>
                                 <div class="col-md-10">
                                     <input type="file" name="files" id="files" multiple accept="image/jpeg, image/png, image/gif, image/tiff, image/svg+xml">
@@ -46,7 +46,6 @@
                                         <?php }
                                         } ?>
                                     </select>
-                                    <input type="checkbox" id="check_all" name="check_all" value="1"> Add All</input>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -126,33 +125,16 @@
             formdata.append('files[]', files[index]);
         }
 
-        if ($('#check_all').prop('checked') == true) {
-            $.ajax({
-                url: '<?= base_url(); ?>reports/add_pms_all',
-                type: 'POST',
-                data: formdata,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    location.reload();
-                }
-            });
-        } else {
-            $.ajax({
-                url: '<?= base_url(); ?>reports/add_pms',
-                type: 'POST',
-                data: formdata,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    location.reload();
-                }
-            });
-        }
-    })
+        $.ajax({
+            url: '<?= base_url(); ?>reports/add_pms',
+            type: 'POST',
+            data: formdata,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                location.reload();
+            }
+        });
 
-    $(document).on('click', '#check_all', function() {
-        let check = $(this).prop('checked');
-        $('#vehicle').prop('disabled', check);
     })
 </script>
