@@ -404,6 +404,10 @@ $(document).ready(function () {
     bLengthChange: false,
     bInfo: false,
     ordering: false,
+    dom: 'Bfrtip', // Add 'B' to the dom options to display buttons
+    buttons: [
+      'excelHtml5' // This adds the Excel export button
+    ]
   });
   $("#bookingstbl,#vgeofencetbl,#incomexpenstbl,.datatable").DataTable({
     bLengthChange: false,
@@ -508,9 +512,9 @@ function calculateSpeedKnots(lat1, lon1, time1, lat2, lon2, time2) {
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.cos(radLat1) *
-      Math.cos(radLat2) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
+    Math.cos(radLat2) *
+    Math.sin(dLon / 2) *
+    Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   const distance = R * c; // Distance in nautical miles
   // Calculate time difference in hours

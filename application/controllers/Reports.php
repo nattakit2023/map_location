@@ -195,7 +195,7 @@ class Reports extends CI_Controller
 		foreach ($files['name'] as $index => $name) {
 			$filename = $name;
 			$fileTmp = $files['tmp_name'][$index];
-			$filePath = "assets/uploads/report/pms/" . $vehicle . "/" . $name;
+			$filePath = "assets/uploads/report/pms/" . $name;
 
 			move_uploaded_file($fileTmp, $filePath);
 			chmod("$filePath", 0755);

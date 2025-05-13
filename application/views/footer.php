@@ -1,4 +1,3 @@
-
 </div>
 </div>
 <script src="<?= base_url(); ?>assets/dist/polyfill2.js"></script>
@@ -23,6 +22,12 @@ if (is_numeric($seg)) {
 <script src="<?php echo base_url(); ?>assets/jscolor.js"></script>
 <script src="<?= base_url(); ?>assets/plugins/selectize.min.js"></script>
 <script src="<?= base_url(); ?>assets/plugins/datepicker/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
 <script type="text/javascript">
     <?php if ($this->session->flashdata('successmessage')) { ?>
         const Toast = Swal.mixin({
@@ -64,7 +69,7 @@ if ($seg == 'addgeofence' || $seg == 'addtrips' || $seg == 'geofence' || $seg ==
 <?php } ?>
 <script src="<?= base_url(); ?>assets/custom.js?v=<?= mt_rand(); ?>"></script>
 <?php
-if ($seg == 'addgeofence' || $seg == 'addrestrict' ) { ?>
+if ($seg == 'addgeofence' || $seg == 'addrestrict') { ?>
     <!-- <script src="<?php echo base_url(); ?>assets/geofence.js"></script> -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins/select2/css/select2.min.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins/select2/css/select2-bootstrap4.min.css">

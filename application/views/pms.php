@@ -77,8 +77,6 @@
                         <table id="fmslisttbl" class="table card-table table-vcenter text-nowrap">
                             <thead>
                                 <tr>
-                                    <th class="w-1">S.No</th>
-                                    <th>File Name</th>
                                     <th>Vessel Name</th>
                                     <th>Uploaded Date</th>
                                     <th>Action</th>
@@ -89,8 +87,6 @@
                                     foreach ($fms as $fms_data) {
                                 ?>
                                         <tr>
-                                            <td><?php echo $fms_data['id']; ?></td>
-                                            <td><?php echo $fms_data['file_name']; ?></td>
                                             <td><?php echo $fms_data['v_name']; ?></td>
                                             <td><?php echo $fms_data['datetime']; ?></td>
                                             <td>

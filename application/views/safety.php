@@ -82,8 +82,6 @@
                         <table id="table1" class="table card-table table-vcenter text-nowrap">
                             <thead>
                                 <tr>
-                                    <th class="w-1">S.No</th>
-                                    <th>File Name</th>
                                     <th>Vessel Name</th>
                                     <th>Uploaded Date</th>
                                     <th>Action</th>
@@ -94,8 +92,6 @@
                                     foreach ($fms as $fms_data) {
                                 ?>
                                         <tr>
-                                            <td><?php echo $fms_data['id']; ?></td>
-                                            <td><?php echo $fms_data['file_name']; ?></td>
                                             <td><?php echo $fms_data['v_name']; ?></td>
                                             <td><?php echo $fms_data['datetime']; ?></td>
                                             <td>
@@ -110,8 +106,6 @@
                         <table id="table2" class="table card-table table-vcenter text-nowrap" style="display: none;">
                             <thead>
                                 <tr>
-                                    <th class="w-1">S.No</th>
-                                    <th>File Name</th>
                                     <th>Uploaded Date</th>
                                     <th>Action</th>
                                 </tr>
@@ -121,8 +115,6 @@
                                     foreach ($safety_all as $safety_data) {
                                 ?>
                                         <tr>
-                                            <td><?php echo $safety_data['id']; ?></td>
-                                            <td><?php echo $safety_data['file_name']; ?></td>
                                             <td><?php echo $safety_data['datetime']; ?></td>
                                             <td>
                                                 <a href="<?php echo base_url($safety_data['file_path']); ?>" target="_blank"><i class="fas fa-eye"></i></a>

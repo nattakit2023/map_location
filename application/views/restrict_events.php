@@ -24,7 +24,6 @@
             <thead>
               <tr>
                 <th class="w-1">S.No</th>
-                <th>Vessel ID</th>
                 <th>Vessel Name</th>
                 <th>Restrict Name</th>
                 <th>Restrict Event</th>
@@ -39,7 +38,6 @@
                   <tr>
                     <td><?php echo output($count);
                         $count++; ?></td>
-                    <td><?php echo output($restrict['res_v_id']); ?></td>
                     <td><?php echo output($restrict['v_name']); ?></td>
                     <td><?php echo output($restrict['res_name']); ?></td>
                     <td> <span class="badge badge-danger">

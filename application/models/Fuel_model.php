@@ -59,7 +59,7 @@ class Fuel_model extends CI_Model
 
 	public function getall_fms()
 	{
-		$this->db->select('*')->from('fms')->join('vehicles', 'fms.vessel_id = vehicles.v_id', 'left');
+		$this->db->select('*')->from('fms')->join('vehicles', 'fms.vessel_id = vehicles.v_id', 'left')->order_by('datetime', 'desc');
 
 		return $this->db->get()->result_array();
 	}
@@ -71,7 +71,7 @@ class Fuel_model extends CI_Model
 
 	public function getall_crew()
 	{
-		$this->db->select('*')->from('crew')->join('vehicles', 'crew.vessel_id = vehicles.v_id', 'left');
+		$this->db->select('*')->from('crew')->join('vehicles', 'crew.vessel_id = vehicles.v_id', 'left')->order_by('datetime', 'desc');
 
 		return $this->db->get()->result_array();
 	}
@@ -83,7 +83,7 @@ class Fuel_model extends CI_Model
 
 	public function getall_pms()
 	{
-		$this->db->select('*')->from('pms')->join('vehicles', 'pms.vessel_id = vehicles.v_id', 'left');
+		$this->db->select('*')->from('pms')->join('vehicles', 'pms.vessel_id = vehicles.v_id', 'left')->order_by('datetime', 'desc');
 
 		return $this->db->get()->result_array();
 	}
@@ -95,7 +95,7 @@ class Fuel_model extends CI_Model
 
 	public function getall_pms_all()
 	{
-		$this->db->select('*')->from('pms_all')->order_by('id', 'desc');
+		$this->db->select('*')->from('pms_all')->order_by('datetime', 'desc');
 
 		return $this->db->get()->result_array();
 	}
@@ -107,7 +107,7 @@ class Fuel_model extends CI_Model
 
 	public function getall_ship_cer()
 	{
-		$this->db->select('*')->from('ship_cer')->join('vehicles', 'ship_cer.vessel_id = vehicles.v_id', 'left');
+		$this->db->select('*')->from('ship_cer')->join('vehicles', 'ship_cer.vessel_id = vehicles.v_id', 'left')->order_by('datetime', 'desc');
 
 		return $this->db->get()->result_array();
 	}
@@ -119,7 +119,7 @@ class Fuel_model extends CI_Model
 
 	public function getall_safety()
 	{
-		$this->db->select('*')->from('safety')->join('vehicles', 'safety.vessel_id = vehicles.v_id', 'left');
+		$this->db->select('*')->from('safety')->join('vehicles', 'safety.vessel_id = vehicles.v_id', 'left')->order_by('datetime', 'desc');
 
 		return $this->db->get()->result_array();
 	}
