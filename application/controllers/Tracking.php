@@ -39,6 +39,27 @@ class Tracking extends CI_Controller
 	{
 		$data = $this->input->post('data');
 		$result['data'] = $this->db->query("SELECT * FROM data_from_sc WHERE esn = '$data[vechicle]' AND messageType = 'Standard' AND ( timestamp >= '$data[fromdate]' AND timestamp <= '$data[todate]')")->result_array();
+		foreach ($result['data'] as $key => $history) {
+			if ($key != 0) {
+
+				$R = 6371e3; // metres
+				$phi1 = deg2rad($result['data'][$key - 1]['latitude']); // φ, λ in radians (convert degrees to radians)
+				$phi2 = deg2rad($history['latitude']);
+				$deltaPhi = deg2rad($history['latitude'] - $result['data'][$key - 1]['latitude']);
+				$deltaLambda = deg2rad($history['longitude'] - $result['data'][$key - 1]['longitude']);
+
+				$a = sin($deltaPhi / 2) * sin($deltaPhi / 2) +
+					cos($phi1) * cos($phi2) *
+					sin($deltaLambda / 2) * sin($deltaLambda / 2);
+
+				$c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+
+				$d = $R * $c; // in metres
+
+				$result['data'][$key]['distance'] = $d / 1852;
+			}
+		}
+
 		return $this->load->view("tbltrackinghistory", $result);
 	}
 

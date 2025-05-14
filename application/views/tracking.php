@@ -4,7 +4,7 @@
              <section class="content">
                 <div class="container-fluid">
                    <div class="row">
-                      <div class="col-lg-7 col-md-7">
+                      <div class="col-lg-6 col-md-6">
                          <div class="card rounded-0">
                             <!-- <div class="card-header">
 
@@ -53,18 +53,18 @@
                          </div>
                       </div>
 
-                      <div class="col-lg-5 col-md-5">
+                      <div class="col-lg-6 col-md-6">
                          <div class="card">
                             <div class="card-header">
                                <div class="row col-md-12">
                                   <div class="col-md-3">
                                      <div class="form-group">
-                                        <input type="text" required="true" name="fromdate" id="fromdate" class="form-control datepicker" placeholder="From Date">
+                                        <input type="datetime-local" required="true" name="fromdate" id="fromdate" class="form-control" placeholder="From Date">
                                      </div>
                                   </div>
                                   <div class="col-md-3">
                                      <div class="form-group">
-                                        <input type="text" required="true" name="todate" id="todate" class="form-control datepicker" placeholder="To Date">
+                                        <input type="datetime-local" required="true" name="todate" id="todate" class="form-control" placeholder="To Date">
                                      </div>
                                   </div>
                                   <div class="col-md-5">
@@ -106,6 +106,7 @@
                               </svg>`;
              const svgDataUri = 'data:image/svg+xml;utf8,' + encodeURIComponent(svgCode);
 
+
              var main_logo = L.icon({
                 iconUrl: svgDataUri,
                 iconSize: [30, 30], // Adjust size as needed
@@ -123,6 +124,8 @@
              // Add a tile layer
              L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
              map.addControl(new L.Control.Fullscreen());
+             L.control.scale().addTo(map);
+
 
              function changeValueSlider() {
                 let value = document.getElementById('myRange').value;
@@ -169,13 +172,15 @@
 
              }
 
+             let polyline;
+
              function loadHistory() {
                 removeAllMarkers();
                 document.getElementById('timestamp').innerHTML = new Date(data_from_get[0].timestamp);
 
                 const latlngs = data_from_get.map(item => L.latLng(item.latitude, item.longitude));
                 // Display history as a polyline
-                const polyline = L.polyline(latlngs, {
+                polyline = L.polyline(latlngs, {
                    color: 'blue',
                    weight: 2,
                    opacity: 0.5,
@@ -209,6 +214,11 @@
                 for (var key in markers) {
                    map.removeLayer(markers[key]);
                 }
+                if (polyline) { // Check if polyline exists before trying to remove
+                   map.removeLayer(polyline);
+                   polyline = null; // Reset the polyline variable
+                }
+
                 markers = {}; // Clear the markers object
              }
 

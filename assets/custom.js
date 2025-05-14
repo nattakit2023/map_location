@@ -564,7 +564,6 @@ $("#history_tracking").on("click", function (e) {
     },
     url: "tracking/get_history",
     success: function (result) {
-      console.log(JSON.parse(result));
       data_from_get = JSON.parse(result);
       var slider = document.getElementById("myRange");
       slider.min = 0;
