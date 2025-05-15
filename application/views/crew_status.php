@@ -114,6 +114,11 @@
         let vehicle = $('#vehicle').val();
         let datetime = $('#datetime').val();
 
+        if (files.length == 0 || vehicle == '' || datetime == '') {
+            alert('Please Input or Select All Fields');
+            return false;
+        }
+
         formdata.append('vehicle', vehicle);
         formdata.append('datetime', datetime);
 

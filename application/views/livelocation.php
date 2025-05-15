@@ -760,6 +760,9 @@ if ($this->uri->segment(3)) {
                     <h3>
                         PMS ( ${name} ) 
                     </h3>
+                    <h4>
+                        <a href="https://intra.scgroupthai.com:8089/SCG999/">* Link to SC</a>
+                    </h4>
                 </div>
                 `;
                 var pms = document.getElementById("pms");

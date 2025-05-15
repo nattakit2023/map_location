@@ -20,9 +20,11 @@
             <div class="col-md-12">
                 <div class="card rounded-0">
                     <div class="card-header bg-light rounded-0">
-                        <h3>
-                            Add PMS Report
-                        </h3>
+                        <div class="row" style="align-items: end;">
+                            <h3>
+                                Add PMS Report
+                            </h3>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -113,6 +115,11 @@
         let files = $('#files')[0].files;
         let vehicle = $('#vehicle').val();
         let datetime = $('#datetime').val();
+
+        if (files.length == 0 || vehicle == '' || datetime == '') {
+            alert('Please Input or Select All Fields');
+            return false;
+        }
 
         formdata.append('vehicle', vehicle);
         formdata.append('datetime', datetime);

@@ -22,7 +22,10 @@
 
     <tbody>
 
-        <?php foreach ($data as $key => $history): ?>
+        <?php
+        $sum_distance = 0;
+
+        foreach ($data as $key => $history): ?>
 
             <tr class="text-center">
 
@@ -39,7 +42,8 @@
                 <td><?= !empty($history['distance']) ? output(number_format($history['distance'], 5)) : 0; ?></td>
 
             </tr>
-            <?php !empty($history['distance']) ? $sum_distance += $history['distance'] : $sum_distance ?>
+            <?php
+            !empty($history['distance']) ? $sum_distance = $sum_distance + $history['distance'] : "" ?>
         <?php endforeach; ?>
 
     </tbody>
@@ -69,7 +73,7 @@
 
         "responsive": true,
 
-        "pageLength": 5,
+        "pageLength": 7,
 
         language: {
 
@@ -96,20 +100,7 @@
             "info": "แสดง _START_ ถึง _END_ จาก _TOTAL_ รายการ",
 
         },
-        "drawCallback": function(settings) {
-            var api = this.api();
-            var total = api
-                .column({
-                    page: 'current'
-                }) // Select the "Distance (NM)" column (index 5) and only the current page
-                .data()
-                .reduce(function(sum, data) {
-                    return sum + parseFloat(data.replace(/,/g, '')) || 0; // Remove commas and parse as float
-                }, 0);
 
-            // Update the footer with the total distance
-            $('#total-distance').text(total.toFixed(5));
-        }
 
     });
 </script>

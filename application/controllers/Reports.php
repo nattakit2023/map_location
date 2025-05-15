@@ -148,6 +148,7 @@ class Reports extends CI_Controller
 
 	public function pms()
 	{
+
 		$data['vehicles'] = $this->vehicle_model->getall_vehicle();
 		$data['fms'] = $this->fuel_model->getall_pms();
 		$this->template->template_render('pms', $data);
