@@ -38,7 +38,7 @@ class Tracking extends CI_Controller
 	public function tblhistory()
 	{
 		$data = $this->input->post('data');
-		$result['data'] = $this->db->query("SELECT * FROM data_from_sc WHERE esn = '$data[vechicle]' AND messageType = 'Standard' AND ( timestamp >= '$data[fromdate]' AND timestamp <= '$data[todate]')")->result_array();
+		$result['data'] = $this->db->query("SELECT * FROM data_from_sc WHERE esnName = '$data[vechicle]' AND messageType = 'Standard' AND ( timestamp >= '$data[fromdate]' AND timestamp <= '$data[todate]')")->result_array();
 		foreach ($result['data'] as $key => $history) {
 			if ($key != 0) {
 
@@ -66,7 +66,7 @@ class Tracking extends CI_Controller
 	public function get_history()
 	{
 		$data = $this->input->post('data');
-		$result = $this->db->query("SELECT * FROM data_from_sc WHERE esn = '$data[vechicle]' AND messageType = 'Standard' AND ( timestamp >= '$data[fromdate]' AND timestamp <= '$data[todate]')")->result_array();
+		$result = $this->db->query("SELECT * FROM data_from_sc WHERE esnName = '$data[vechicle]' AND messageType = 'Standard' AND ( timestamp >= '$data[fromdate]' AND timestamp <= '$data[todate]')")->result_array();
 		echo json_encode($result);
 	}
 }

@@ -72,7 +72,7 @@
                                         <select id="t_vechicle" required="true" class="form-control selectized" name="t_vechicle">
                                            <option value="">Select Vessel</option>
                                            <?php foreach ($vechiclelist_from_sc as $key => $vechiclelists) { ?>
-                                              <option value="<?php echo output($vechiclelists['esn']) ?>"><?php echo output($vechiclelists['esnName']) ?></option>
+                                              <option value="<?php echo output($vechiclelists['esnName']) ?>"><?php echo output($vechiclelists['esnName']) ?></option>
                                            <?php  } ?>
                                         </select>
                                      </div>
