@@ -39,7 +39,7 @@
                                     <strong style="font-size: 18px;">Select PDF file </strong>
                                 </div>
                                 <div class="col-md-10">
-                                    <input type="file" name="pdf" id="pdf" accept="pdf">
+                                    <input type="file" name="pdf" id="pdf" accept="application/pdf">
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -98,10 +98,11 @@
                                             <td><?php echo $fms_data['v_name']; ?></td>
                                             <td><?php echo $fms_data['datetime']; ?></td>
                                             <td>
-                                                <a href="<?php echo base_url($fms_data['file_path']); ?>" target="_blank"><i class="fas fa-eye"></i></a>
+                                                <a style="color: green;" href="<?php echo base_url($fms_data['file_path']); ?>" target="_blank"><i class="fas fa-eye"></i></a>
                                                 <?php if ($fms_data['pdf_path'] != '') { ?>
                                                     <a href="<?php echo base_url($fms_data['pdf_path']); ?>" target="_blank"><i class="fas fa-file"></i></a>
                                                 <?php } ?>
+                                                <a style="color: red;" href="#" onclick="deleteFMS(<?= $fms_data['id'] ?>)"><i class="fas fa-trash"></i></a>
                                             </td>
                                         </tr>
                                         </tr>
@@ -131,9 +132,6 @@
             return false;
         }
 
-        console.log(files);
-        console.log(pdf);
-
         formdata.append('vehicle', vehicle);
         formdata.append('datetime', datetime);
 
@@ -158,4 +156,19 @@
             }
         });
     })
+
+    function deleteFMS(fms_id) {
+        if (confirm('Are you sure you want to delete this FMS report?')) {
+            $.ajax({
+                url: '<?= base_url(); ?>reports/delete_fms',
+                type: 'POST',
+                data: {
+                    id: fms_id
+                },
+                success: function(response) {
+                    location.reload();
+                }
+            });
+        }
+    }
 </script>

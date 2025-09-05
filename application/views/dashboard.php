@@ -260,20 +260,36 @@
          </div>
       </div> -->
       <div class="row">
-         <div class="col-md-6">
+         <div id="Map" class="col-md-12">
             <div class="card rounded-0">
                <div class="card-header">
-                  <h5>Map Windys</h5>
+                  <div class="d-flex justify-content-between align-items-center">
+                     <h5>Map Windys</h5>
+                     <button type="button" class="btn btn-primary" onclick="ShowSafety()">Safety Overview</button>
+                  </div>
                </div>
                <div class="card-body">
-                  <div id="windy" style="width: 100%; height: 660px;"></div>
+                  <div id="windy" style="width: 100%; height: 650px;">
+
+                  </div>
+                  <!-- <div class="form-group" style="position: absolute; top: 100px; left: 35px; z-index: 1000;width: 20%; padding-right: 15px;">
+                     <select id="t_vechicle" required="true" class="form-control selectized" name="t_vechicle" onchange="SearchVessel()">
+                        <option value="">Select Vessel</option>
+                        <?php foreach ($vechiclelist_from_sc as $key => $vechiclelists) { ?>
+                           <option value="<?php echo output($vechiclelists['esnName']) ?>"><?php echo output($vechiclelists['esnName']) ?></option>
+                        <?php  } ?>
+                     </select>
+                  </div> -->
                </div>
             </div>
          </div>
-         <div class="col-md-6">
+         <div id="Safety" class="col-md-12" style="height: 650px;" hidden>
             <div class="card rouded-0">
                <div class="card-header">
-                  <h5>Safety Overview</h5>
+                  <div class="d-flex justify-content-between align-items-center">
+                     <h5>Safety Overview</h5>
+                     <button type="button" class="btn btn-primary" onclick="ShowMap()">Map Windy</button>
+                  </div>
                </div>
                <div class="card-body" id="safety_overview">
                </div>
@@ -376,6 +392,16 @@
       return [lat, lon];
    }
 
+   const formatter = new Intl.DateTimeFormat('en-GB', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false
+   });
+
    function get_safety() {
       $.ajax({
          url: "<?= base_url() ?>reports/get_pms_all",
@@ -393,6 +419,16 @@
          },
          error: function(xhr, status, error) {}
       })
+   }
+
+   function ShowMap() {
+      document.getElementById("Map").hidden = false;
+      document.getElementById("Safety").hidden = true;
+   }
+
+   function ShowSafety() {
+      document.getElementById("Map").hidden = true;
+      document.getElementById("Safety").hidden = false;
    }
 
    $(document).ready(function() {
@@ -425,8 +461,8 @@
                const speed = calculateSpeedKnots(item.latlng[1].latitude, item.latlng[1].longitude, new Date(item.latlng[1].timestamp), item.latlng[0].latitude, item.latlng[0].longitude, new Date(item.latlng[0].timestamp));
                const index_head = (Bearing / 45).toFixed(0) <= 7 ? (Bearing / 45).toFixed(0) : 0;
                const time = new Date(item.timestamp);
-               const gmtplus = new Date(time.getTime() + (7 * 60 * 60 * 1000)).toISOString();
-               update_location(item.latitude, item.longitude, item.esnName, item.esn, index_head, speed, Bearing, gmtplus);
+               const gmtplus = new Date(time.getTime() + (7 * 60 * 60 * 1000));
+               update_location(item.latitude, item.longitude, item.esnName, item.esn, item.latlng[0].v_color, index_head, speed, Bearing, formatter.format(gmtplus));
             })
          }
 
@@ -456,7 +492,7 @@
             }
          }
 
-         function update_location(lat, lng, esnName, esn, index_head, speed, Bearing, timestamp) {
+         function update_location(lat, lng, esnName, esn, color, index_head, speed, Bearing, timestamp) {
             const heading = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
             const svgCode = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox="0 0 14 14" version="1.1" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
                             <g transform="rotate(${Bearing},7,7)">
@@ -478,7 +514,7 @@
                markers[esn].setIcon(myLogoIcon);
                markers[esn].setPopupContent(`<table>
                                 <tr>
-                                    <td>ESN [${esn}]</td>
+                                    <td>ESN [${esn}] (${esnName})</td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -522,7 +558,7 @@
                      className: 'my-permanent-tooltip' // Optional: Add a custom CSS class
                   }).bindPopup(`<table>
                                 <tr>
-                                    <td>ESN [${esn}]</td>
+                                    <td>ESN [${esn}] (${esnName})</td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -559,7 +595,8 @@
                marker.on('click', function(event) {
                   event.target.openPopup();
                })
-
+               var tooltipElement = marker.getTooltip()._container;
+               tooltipElement.style.backgroundColor = color; // Set the tooltip background color
                markers[esn] = marker; // Store the marker using esn as the key
 
             }
@@ -572,6 +609,26 @@
             markers = {}; // Clear the markers object
          }
 
+         function resetSearch() {
+            // Reset the map view to the initial state
+            map.setView([13.406105629697434, 100.91933242591432], 6); // Reset to Samrong Nuea coordinates and zoom level
+         }
+
+         function SearchVessel() {
+            var vessels = document.getElementById("t_vechicle").value;
+            if (vessels === "") {
+               alert("Please select a vessel.");
+               return;
+            }
+
+            // zoom in to the selected vessel marker
+            if (markers[vessels]) {
+               map.setView(markers[vessels].getLatLng(), 12); // Zoom in to the marker
+
+            } else {
+               alert("Vessel not found on the map.");
+            }
+         }
 
          map_location();
          setInterval(ChangeData, 30000); // 5000 milliseconds = 5 seconds

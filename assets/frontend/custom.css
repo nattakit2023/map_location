@@ -2446,7 +2446,7 @@
  }
  .cancel_table th {
      border: 1px solid black;
-     background-color: ##F2F2F2;
+     background-color: #F2F2F2;
      padding: 10px;
      font-size: 12px;
  }
@@ -3018,14 +3018,12 @@
      #Search .searchRow .searchRight {
          float: left;
          padding-left: 0px;
-         !important;
      }
  }
  @media (min-width: 992px)and (max-width: 1199px) {
      #Search .searchRow .searchRight {
          float: left;
          padding-left: 0px;
-         !important;
      }
  }
  @media (min-width: 1920px)and (max-width: 1990px) {
@@ -4051,7 +4049,6 @@
      #Search .searchRow .searchRight {
          float: left;
          padding-left: 0px;
-         !important;
      }
      .tb_offers1 {
          border: none;
@@ -4255,7 +4252,6 @@
      #Search .searchRow .searchRight {
          float: left;
          padding-left: 0px;
-         !important;
      }
  }
  @media (min-width: 1920px)and (max-width: 1990px) {
@@ -4309,8 +4305,8 @@
      display: inline-block;
      vertical-align: baseline;
      zoom: 1;
-     *display: inline;
-     *vertical-align: auto;
+     display: inline;
+     vertical-align: auto;
  }
  .user img {
      float: left;
@@ -4674,7 +4670,7 @@
      font-weight: 600;
      font-family: 'Open Sans', sans-serif;
      font-size: 15px;
-     color#7c7c7c;
+     color: #7c7c7c;
      width: 50%;
      float: left;
  }
@@ -5139,7 +5135,7 @@ textarea.parsley-error {
   margin: 20px 0;
   text-align: center;
   list-style: none;
-  *zoom: 1;
+  zoom: 1;
 }
 
 .pager:before,

@@ -92,7 +92,8 @@
                                             <td><?php echo $fms_data['v_name']; ?></td>
                                             <td><?php echo $fms_data['datetime']; ?></td>
                                             <td>
-                                                <a href="<?php echo base_url($fms_data['file_path']); ?>" target="_blank"><i class="fas fa-eye"></i></a>
+                                                <a style="color: green;" href="<?php echo base_url($fms_data['file_path']); ?>" target="_blank"><i class="fas fa-eye"></i></a>
+                                                <a style="color: red;" href="#" onclick="deletePMS(<?= $fms_data['id'] ?>)"><i class="fas fa-trash"></i></a>
                                             </td>
                                         </tr>
                                         </tr>
@@ -140,4 +141,19 @@
         });
 
     })
+
+    function deletePMS(pms_id) {
+        if (confirm('Are you sure you want to delete this PMS report?')) {
+            $.ajax({
+                url: '<?= base_url(); ?>reports/delete_pms',
+                type: 'POST',
+                data: {
+                    id: pms_id
+                },
+                success: function(response) {
+                    location.reload();
+                }
+            });
+        }
+    }
 </script>

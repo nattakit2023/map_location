@@ -106,6 +106,43 @@ class Reports extends CI_Controller
 		echo json_encode($result);
 	}
 
+	public function delete_fms()
+	{
+		$id = $this->input->post('id');
+		if (empty($id)) {
+			echo json_encode(['status' => 'error', 'message' => 'Invalid FMS Report ID.']);
+			return;
+		}
+
+		// delete file fms
+		$this->db->select('file_path, pdf_path');
+		$this->db->from('fms');
+		$this->db->where('id', $id);
+		$query = $this->db->get();
+		$fms_data = $query->row_array();
+
+		if ($fms_data) {
+			$file_path = $fms_data['file_path'];
+			$pdf_path = $fms_data['pdf_path'];
+
+			if (file_exists($file_path)) {
+				unlink($file_path);
+			}
+			if ($pdf_path && file_exists($pdf_path)) {
+				unlink($pdf_path);
+			}
+		}
+
+		$this->db->where('id', $id);
+		$this->db->delete('fms');
+
+		if ($this->db->affected_rows() > 0) {
+			echo json_encode(['status' => 'success', 'message' => 'FMS Report deleted successfully.']);
+		} else {
+			echo json_encode(['status' => 'error', 'message' => 'Failed to delete FMS Report.']);
+		}
+	}
+
 	public function crew_status()
 	{
 		$data['vehicles'] = $this->vehicle_model->getall_vehicle();
@@ -144,6 +181,39 @@ class Reports extends CI_Controller
 		$query = $this->db->get();
 		$result = $query->result_array();
 		echo json_encode($result);
+	}
+
+	public function delete_crew()
+	{
+		$id = $this->input->post('id');
+		if (empty($id)) {
+			echo json_encode(['status' => 'error', 'message' => 'Invalid Crew Report ID.']);
+			return;
+		}
+
+		// delete file crew
+		$this->db->select('file_path');
+		$this->db->from('crew');
+		$this->db->where('id', $id);
+		$query = $this->db->get();
+		$fms_data = $query->row_array();
+
+		if ($fms_data) {
+			$file_path = $fms_data['file_path'];
+
+			if (file_exists($file_path)) {
+				unlink($file_path);
+			}
+		}
+
+		$this->db->where('id', $id);
+		$this->db->delete('crew');
+
+		if ($this->db->affected_rows() > 0) {
+			echo json_encode(['status' => 'success', 'message' => 'Crew Report deleted successfully.']);
+		} else {
+			echo json_encode(['status' => 'error', 'message' => 'Failed to delete Crew Report.']);
+		}
 	}
 
 	public function pms()
@@ -217,6 +287,72 @@ class Reports extends CI_Controller
 		echo json_encode($result);
 	}
 
+	public function delete_pms()
+	{
+		$id = $this->input->post('id');
+		if (empty($id)) {
+			echo json_encode(['status' => 'error', 'message' => 'Invalid PMS Report ID.']);
+			return;
+		}
+
+		// delete file pms
+		$this->db->select('file_path');
+		$this->db->from('pms');
+		$this->db->where('id', $id);
+		$query = $this->db->get();
+		$fms_data = $query->row_array();
+
+		if ($fms_data) {
+			$file_path = $fms_data['file_path'];
+
+			if (file_exists($file_path)) {
+				unlink($file_path);
+			}
+		}
+
+		$this->db->where('id', $id);
+		$this->db->delete('pms');
+
+		if ($this->db->affected_rows() > 0) {
+			echo json_encode(['status' => 'success', 'message' => 'PMS Report deleted successfully.']);
+		} else {
+			echo json_encode(['status' => 'error', 'message' => 'Failed to delete PMS Report.']);
+		}
+	}
+
+	public function delete_pms_all()
+	{
+		$id = $this->input->post('id');
+		if (empty($id)) {
+			echo json_encode(['status' => 'error', 'message' => 'Invalid Safety Overview Report ID.']);
+			return;
+		}
+
+		// delete file pms all
+		$this->db->select('file_path');
+		$this->db->from('pms_all');
+		$this->db->where('id', $id);
+		$query = $this->db->get();
+		$fms_data = $query->row_array();
+
+		if ($fms_data) {
+			$file_path = $fms_data['file_path'];
+
+			if (file_exists($file_path)) {
+				unlink($file_path);
+			}
+		}
+
+		$this->db->where('id', $id);
+		$this->db->delete('pms_all');
+
+		if ($this->db->affected_rows() > 0) {
+			echo json_encode(['status' => 'success', 'message' => 'Safety Overview Report deleted successfully.']);
+		} else {
+			echo json_encode(['status' => 'error', 'message' => 'Failed to delete Safety Overview Report.']);
+		}
+	}
+
 	public function ship_cer()
 	{
 		$data['vehicles'] = $this->vehicle_model->getall_vehicle();
@@ -230,16 +366,23 @@ class Reports extends CI_Controller
 		$datetime = $this->input->post('datetime');
 
 		$files = $_FILES['files'];
+		$pdf = $_FILES['pdf'];
 
 		foreach ($files['name'] as $index => $name) {
 			$filename = $name;
 			$fileTmp = $files['tmp_name'][$index];
 			$filePath = "assets/uploads/report/ship_certificate/" . $vehicle . "/" . $name;
+			$pdfname = $pdf['name'][$index];
+			$pdfTmp = $pdf['tmp_name'][$index];
+			$pdfPath = "assets/uploads/report/ship_certificate/" . $vehicle . "/" . $pdfname;
 
 			move_uploaded_file($fileTmp, $filePath);
 			chmod("$filePath", 0755);
 
-			$this->fuel_model->add_ship_cer(["file_name" => $filename, "file_tmp" => $fileTmp, "file_path" => $filePath, "vessel_id" => $vehicle, "datetime" => $datetime]);
+			move_uploaded_file($pdfTmp, $pdfPath);
+			chmod("$pdfPath", 0755);
+
+			$this->fuel_model->add_ship_cer(["file_name" => $filename, "file_tmp" => $fileTmp, "file_path" => $filePath, "pdf_name" => $pdfname, "pdf_tmp" => $pdfTmp, "pdf_path" => $pdfPath, "vessel_id" => $vehicle, "datetime" => $datetime]);
 		}
 
 		$this->session->set_flashdata('successmessage', 'New Ship Certificate Report added successfully..');
@@ -255,6 +398,43 @@ class Reports extends CI_Controller
 		$query = $this->db->get();
 		$result = $query->result_array();
 		echo json_encode($result);
+	}
+
+	public function delete_ship_cer()
+	{
+		$id = $this->input->post('id');
+		if (empty($id)) {
+			echo json_encode(['status' => 'error', 'message' => 'Invalid Ship Certificate Report ID.']);
+			return;
+		}
+
+		// delete file pms
+		$this->db->select('file_path, pdf_path');
+		$this->db->from('ship_cer');
+		$this->db->where('id', $id);
+		$query = $this->db->get();
+		$fms_data = $query->row_array();
+
+		if ($fms_data) {
+			$file_path = $fms_data['file_path'];
+			$pdf_path = $fms_data['pdf_path'];
+
+			if (file_exists($file_path)) {
+				unlink($file_path);
+			}
+			if ($pdf_path && file_exists($pdf_path)) {
+				unlink($pdf_path);
+			}
+		}
+
+		$this->db->where('id', $id);
+		$this->db->delete('ship_cer');
+
+		if ($this->db->affected_rows() > 0) {
+			echo json_encode(['status' => 'success', 'message' => 'Ship Certificate Report deleted successfully.']);
+		} else {
+			echo json_encode(['status' => 'error', 'message' => 'Failed to delete Ship Certificate Report.']);
+		}
 	}
 
 	public function safety()
@@ -296,5 +476,38 @@ class Reports extends CI_Controller
 		$query = $this->db->get();
 		$result = $query->result_array();
 		echo json_encode($result);
+	}
+
+	public function delete_safety()
+	{
+		$id = $this->input->post('id');
+		if (empty($id)) {
+			echo json_encode(['status' => 'error', 'message' => 'Invalid Safety Report ID.']);
+			return;
+		}
+
+		// delete file pms
+		$this->db->select('file_path');
+		$this->db->from('safety');
+		$this->db->where('id', $id);
+		$query = $this->db->get();
+		$fms_data = $query->row_array();
+
+		if ($fms_data) {
+			$file_path = $fms_data['file_path'];
+
+			if (file_exists($file_path)) {
+				unlink($file_path);
+			}
+		}
+
+		$this->db->where('id', $id);
+		$this->db->delete('safety');
+
+		if ($this->db->affected_rows() > 0) {
+			echo json_encode(['status' => 'success', 'message' => 'Safety Report deleted successfully.']);
+		} else {
+			echo json_encode(['status' => 'error', 'message' => 'Failed to delete Safety Report.']);
+		}
 	}
 }

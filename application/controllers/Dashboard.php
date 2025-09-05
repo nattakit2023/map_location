@@ -20,6 +20,7 @@ class Dashboard extends CI_Controller
         $data['iechart'] = $this->dashboard_model->get_iechartdata();
         $data['todayreminder'] = $this->dashboard_model->get_todayreminder();
         $data['dashboard'] = $this->dashboard_model->getdashboard_info();
+        $data['vechiclelist_from_sc'] = $this->db->query("SELECT * FROM data_from_sc group by esnName desc")->result_array();
         $data['vechicle_currentlocation'] = $this->dashboard_model->get_vechicle_currentlocation();
         $data['vechicle_status'] = $this->dashboard_model->getvechicle_status();
         $returndata = array();

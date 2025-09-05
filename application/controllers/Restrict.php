@@ -76,15 +76,21 @@ class Restrict extends CI_Controller
 
     public function restrictdelete()
     {
-        $g_id = $this->uri->segment(3);
+        $g_id = $this->input->post('res_id');
+        if (empty($g_id)) {
+            $this->session->set_flashdata('warningmessage', 'Invalid restrict ID.');
+        }
+        $this->db->where('res_res_id', $g_id);
+        $events = $this->db->delete('restrict_events');
+
         $this->db->where('res_id', $g_id);
-        $response = $this->db->delete('restrict');
-        if ($response) {
+        $response = $this->db->delete('restrict_area');
+
+
+        if ($response && $events) {
             $this->session->set_flashdata('successmessage', 'Restrict deleted successfully..');
-            redirect('restrict');
         } else {
             $this->session->set_flashdata('warningmessage', 'Failed to delete restrict.Try again.');
-            redirect('restrictevents');
         }
     }
 

@@ -52,7 +52,7 @@
                     </td>
                     <?php if (userpermission('lr_restrict_delete')) { ?>
                       <td>
-                        <a class="icon" href="<?php echo base_url(); ?>restrict/restrictdelete/<?php echo output($restrict['res_id']); ?>">
+                        <a class="icon" href="#" onclick="delete_restrict(<?= $restrict['res_id'] ?>);">
                           <i class="fa fa-trash text-danger"></i>
                         </a>
                       </td>
@@ -93,3 +93,40 @@
     </div>
   </div>
 </div>
+
+<script>
+  function delete_restrict(id) {
+    if (confirm('Are you sure you want to delete this restrict?')) {
+      $.ajax({
+        url: '<?= base_url() ?>restrict/restrictdelete',
+        type: 'POST',
+        data: {
+          res_id: id
+        },
+        success: function(response) {
+          location.reload();
+        },
+        error: function() {
+          alert('Error deleting restrict.');
+        }
+      });
+    }
+  }
+
+
+
+  $('.restrictviewpopup').click(function() {
+    var res_id = $(this).data('id');
+    $.ajax({
+      url: '<?= base_url() ?>restrict/get_restrict_data/' + res_id,
+      type: 'GET',
+      dataType: 'json',
+      success: function(data) {
+
+      },
+      error: function() {
+        alert('Error fetching restrict data.');
+      }
+    });
+  });
+</script>

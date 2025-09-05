@@ -24,6 +24,7 @@ class Tracking extends CI_Controller
 		// $data['api_google'] = $this->db->select('s_googel_api_key')->from('settings')->get()->result_array();
 		$data['camera_name'] = $this->db->select('*')->from('camera')->get()->result_array();
 		$data['vessel'] = json_encode($this->db->select('v_id ,v_name')->from('vehicles')->get()->result_array());
+		$data['vechiclelist_from_sc'] = $this->db->query("SELECT * FROM data_from_sc group by esnName desc")->result_array();
 
 		// if (isset($data[0]['s_googel_api_key']) && $data[0]['s_googel_api_key'] != '') {
 		// 	$this->template->template_render('livelocation',$data);
@@ -55,8 +56,16 @@ class Tracking extends CI_Controller
 				$c = 2 * atan2(sqrt($a), sqrt(1 - $a));
 
 				$d = $R * $c; // in metres
+				$nauticalMiles = $d / 1852;
+				$result['data'][$key]['distance'] = $nauticalMiles;
 
-				$result['data'][$key]['distance'] = $d / 1852;
+				$prevTime = strtotime($result['data'][$key - 1]['timestamp']);
+				$currentTime = strtotime($history['timestamp']);
+
+				$timeDifferenceSeconds = $currentTime - $prevTime;
+				$timeDifferenceHours = $timeDifferenceSeconds / 3600;
+				$speed = $nauticalMiles / $timeDifferenceHours;
+				$result['data'][$key]['speed'] = round($speed, 5);
 			}
 		}
 

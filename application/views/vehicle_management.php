@@ -24,9 +24,7 @@
                      <tr>
                         <th class="w-1">S.No</th>
                         <th>Vessel Name</th>
-                        <th>IMO</th>
-                        <th>MMSI</th>
-                        <th>Call sign</th>
+                        <th>Abbrevate Name</th>
                         <th>Group</th>
                         <th>Is Active</th>
                         <?php if(userpermission('lr_vech_list_view') || userpermission('lr_vech_list_edit')) { ?>
@@ -41,9 +39,7 @@
                         <td><?php echo output($count); $count++; ?></td>
                         <td><a href="https://iot.thaicom.io/dashboards/shared/6f03d010-e4d2-11ee-9ae1-d9b029988059/7a5c04a0-e4d2-11ee-9ae1-d9b029988059"><?php echo output($vehiclelists['v_name']); ?></a></td>
 
-                        <td><?php echo output($vehiclelists['v_model']); ?></td>
-                        <td><?php echo output($vehiclelists['v_chassis_no']); ?></td>
-                        <td><?php echo output($vehiclelists['v_engine_no']); ?></td>
+                        <td><?php echo output($vehiclelists['v_manufactured_by']); ?></td>
                         <td><?php echo output($vehiclelists['gr_name']); ?></td>
                         <td><span class="badge <?php echo ($vehiclelists['v_is_active']=='1') ? 'badge-success' : 'badge-danger'; ?> "><?php echo ($vehiclelists['v_is_active']=='1') ? 'Active' : 'Inactive'; ?></span>  
                         </td>

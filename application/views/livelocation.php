@@ -11,7 +11,21 @@ if ($this->uri->segment(3)) {
         <!-- <script id="group" data-name="<?= $data  ?>" src="<?php echo base_url(); ?>assets/livetrack.js"></script> -->
         <!-- <script src="<?php echo base_url(); ?>assets/fontawesome-markers.min.js"></script> -->
 
-        <div class="col-lg-12 col-md-12" id="map" style="width: 100%; height: 700px;margin-bottom: 50px;"></div>
+        <div class="col-lg-12 col-md-12" id="map" style="width: 100%; height: 700px; margin-bottom: 50px; position: relative;">
+
+        </div>
+        <div class="form-group" style="position: absolute; top: 20px; right: 25px; z-index: 1000; width: 15%;">
+            <select id="t_vechicle" class="form-control selectized" name="t_vechicle">
+                <option value="">Select Vessel</option>
+                <?php foreach ($vechiclelist_from_sc as $key => $vechiclelists) {
+                    if ($vechiclelists['esnName'] != "Miclyn Energy") { ?>
+                        <option value="<?php echo output($vechiclelists['esnName']) ?>"><?php echo output($vechiclelists['esnName']) ?></option>
+                <?php }
+                } ?>
+            </select>
+            <button id="search" class="btn btn-primary" onclick="SearchVessel()">Search</button>
+            <button id="reset" class="btn btn-primary" onclick="resetSearch()">Reset</button>
+        </div>
         <input type="text" id="streamSecrtKey" value="" hidden />
     </div>
 </section>
@@ -88,8 +102,6 @@ if ($this->uri->segment(3)) {
     </div>
     </div>
 </section>
-
-
 </div>
 </div>
 <script src="<?= base_url(); ?>assets/dist/jsPlugin-1.2.0.min.js"></script>
@@ -104,9 +116,21 @@ if ($this->uri->segment(3)) {
     var vessel_location;
     var vessel = JSON.parse('<?= $vessel; ?>');
 
+    const formatter = new Intl.DateTimeFormat('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+    });
 
     async function map_location() {
         removeAllMarkers();
+        document.getElementById("t_vechicle").disabled = true;
+        document.getElementById("search").disabled = true;
+        document.getElementById("reset").disabled = true;
         vessel_location = await getData_location();
         vessel_location.map((item) => {
             item.latitude = parseFloat(item.latitude).toFixed(5);
@@ -114,8 +138,13 @@ if ($this->uri->segment(3)) {
             const Bearing = calculateHeading(item.latlng[1].latitude, item.latlng[1].longitude, item.latlng[0].latitude, item.latlng[0].longitude);
             const speed = calculateSpeedKnots(item.latlng[1].latitude, item.latlng[1].longitude, new Date(item.latlng[1].timestamp), item.latlng[0].latitude, item.latlng[0].longitude, new Date(item.latlng[0].timestamp));
             const index_head = (Bearing / 45).toFixed(0) <= 7 ? (Bearing / 45).toFixed(0) : 0;
-            update_location(item.latitude, item.longitude, item.esnName, item.esn, index_head, speed, Bearing);
+            const time = new Date(item.timestamp);
+            const gmtplus = new Date(time.getTime() + (7 * 60 * 60 * 1000));
+            update_location(item.latitude, item.longitude, (item.latlng[0].v_manufactured_by != "-" ? item.latlng[0].v_manufactured_by : item.esnName), item.esn, item.latlng[0].v_color, index_head, speed, Bearing, formatter.format(gmtplus));
         })
+        document.getElementById("t_vechicle").disabled = false;
+        document.getElementById("search").disabled = false;
+        document.getElementById("reset").disabled = false;
 
     }
 
@@ -130,6 +159,34 @@ if ($this->uri->segment(3)) {
         }
         if (checked == 1) {
             map_location();
+        }
+    }
+
+    function resetSearch() {
+        // Reset the map view to the initial state
+        var vessels = document.getElementById("t_vechicle").value;
+        map.setView([13.406105629697434, 100.91933242591432], 6); // Reset to Samrong Nuea coordinates and zoom level
+        const selectizeInstance = $('#t_vechicle')[0].selectize;
+        if (selectizeInstance) {
+            markers[vessels].closePopup(); // Open the popup for the marker
+            selectizeInstance.clear();
+        }
+    }
+
+    function SearchVessel() {
+        var vessels = document.getElementById("t_vechicle").value;
+        if (vessels === "") {
+            alert("Please select a vessel.");
+            return;
+        }
+
+        // zoom in to the selected vessel marker
+        if (markers[vessels]) {
+            map.setView(markers[vessels].getLatLng(), 12); // Zoom in to the marker
+            markers[vessels].openPopup(); // Open the popup for the marker
+
+        } else {
+            alert("Vessel not found on the map.");
         }
     }
 
@@ -196,7 +253,7 @@ if ($this->uri->segment(3)) {
         });
     }
 
-    function update_location(lat, lng, esnName, esn, index_head, speed, Bearing) {
+    function update_location(lat, lng, esnName, esn, color, index_head, speed, Bearing, timestamp) {
         const heading = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
         const svgCode = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox="0 0 14 14" version="1.1" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
                             <g transform="rotate(${Bearing},7,7)">
@@ -212,13 +269,13 @@ if ($this->uri->segment(3)) {
             popupAnchor: [0, -32]
         });
 
-        if (markers[esn]) {
+        if (markers[esnName]) {
             // Update the existing marker
-            markers[esn].setLatLng([lat, lng]);
-            markers[esn].setIcon(myLogoIcon);
-            markers[esn].setPopupContent(`<table>
+            markers[esnName].setLatLng([lat, lng]);
+            markers[esnName].setIcon(myLogoIcon);
+            markers[esnName].setPopupContent(`<table>
                                 <tr>
-                                    <td>ESN [${esn}]</td>
+                                    <td>ESN [${esn}] (${esnName})</td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -248,6 +305,10 @@ if ($this->uri->segment(3)) {
                                                 <tr>
                                                     <th>Bearing</th>
                                                     <td>${Bearing.toFixed(2)} ํ</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>TimeStamp</th>
+                                                    <td>${timestamp} ํ</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -322,10 +383,9 @@ if ($this->uri->segment(3)) {
                     permanent: true, // Make the tooltip always visible
                     direction: 'bottom', // Adjust direction as needed
                     offset: L.point(0, -10), // Adjust offset as needed
-                    className: 'my-permanent-tooltip' // Optional: Add a custom CSS class
                 }).bindPopup(`<table>
                                 <tr>
-                                    <td>ESN [${esn}]</td>
+                                    <td>ESN [${esn}] (${esnName})</td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -355,6 +415,10 @@ if ($this->uri->segment(3)) {
                                                 <tr>
                                                     <th>Bearing</th>
                                                     <td>${Bearing.toFixed(2)} ํ</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>TimeStamp</th>
+                                                    <td>${timestamp} ํ</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -425,10 +489,9 @@ if ($this->uri->segment(3)) {
             marker.on('click', function(event) {
                 event.target.openPopup();
             })
-
-            markers[esn] = marker; // Store the marker using esn as the key
-            console.log("Update Marker Successfully")
-
+            var tooltipElement = marker.getTooltip()._container;
+            tooltipElement.style.backgroundColor = color; // Set the tooltip background color
+            markers[esnName] = marker; // Store the marker using esn as the key
         }
     }
 
@@ -726,6 +789,10 @@ if ($this->uri->segment(3)) {
                     <h3>
                         Ship Certificate ( ${name} ) 
                     </h3>
+                    <h3>
+                        <a href="<?= base_url(); ?>${data[0].pdf_path}" target="_blank"><i class="fas fa-file"></i></a>
+                    </h3>
+                    <strong style="color: red; padding-left: 10px; align-content: center;"> * Click to open PDF</strong>
                 </div>
                 `;
                 var ship_cer = document.getElementById("ship_cer");

@@ -4,7 +4,7 @@
              <section class="content">
                 <div class="container-fluid">
                    <div class="row">
-                      <div class="col-lg-6 col-md-6">
+                      <div class="col-lg-7 col-md-7">
                          <div class="card rounded-0">
                             <!-- <div class="card-header">
 
@@ -19,7 +19,7 @@
                                </div>
                                <div class="row">
                                   <div class="col-md-12">
-                                     <div id="map" style="width: 100%; height: 550px"></div>
+                                     <div id="map" style="width: 100%; height: 570px"></div>
                                   </div>
                                   <div class="col-md-12" style="margin-top: 10px;" id="tab-slider" hidden>
                                      <div class="custom-slider">
@@ -27,7 +27,7 @@
                                            <input type="range" class="slider" id="myRange" style="width: 100%;" oninput="changeValueSlider()">
                                            <div class="timestamp" id="timestamp"></div>
                                         </div>
-                                        <div class="controls">
+                                        <!-- <div class="controls">
                                            <div>
                                               <button class="skip-back">
                                                  << </button>
@@ -45,7 +45,7 @@
                                                  <option value="2">2x</option>
                                               </select>
                                            </div>
-                                        </div>
+                                        </div> -->
                                      </div>
                                   </div>
                                </div>
@@ -53,7 +53,7 @@
                          </div>
                       </div>
 
-                      <div class="col-lg-6 col-md-6">
+                      <div class="col-lg-5 col-md-5">
                          <div class="card">
                             <div class="card-header">
                                <div class="row col-md-12">
@@ -207,7 +207,6 @@
                    markers[index] = marker; // Store the marker using esn as the key
                 });
 
-                console.log("SUCCESS")
              }
 
              function removeAllMarkers() {

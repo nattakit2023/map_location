@@ -4,17 +4,19 @@
 
         <tr class="text-center">
 
-            <th style="width: 10%">ESN</th>
+            <th>ESN</th>
 
-            <th style="width: 10%">ESN NAME</th>
+            <th>ESN NAME</th>
 
-            <th style="width: 10%">Latitude</th>
+            <th>Latitude</th>
 
-            <th style="width: 15%">Longitude</th>
+            <th>Longitude</th>
 
-            <th style="width: 15%">Timestamp</th>
+            <th>Distance (NM)</th>
 
-            <th style="width: 15%">Distance (NM)</th>
+            <th>Speed Knot (NMph)</th>
+
+            <th>Timestamp</th>
 
         </tr>
 
@@ -37,10 +39,11 @@
 
                 <td><?= output(number_format($history['longitude'], 5)); ?></td>
 
-                <td><?= output($history['timestamp']); ?></td>
-
                 <td><?= !empty($history['distance']) ? output(number_format($history['distance'], 5)) : 0; ?></td>
 
+                <td><?= !empty($history['speed']) ? output(number_format($history['speed'], 5)) : 0; ?></td>
+
+                <td><?= output($history['timestamp']); ?></td>
             </tr>
             <?php
             !empty($history['distance']) ? $sum_distance = $sum_distance + $history['distance'] : "" ?>
@@ -50,7 +53,7 @@
 
     <tfoot>
         <tr class="text-center">
-            <th colspan="5" style="text-align:right;">Total Distance (NM):</th>
+            <th colspan="4" style="text-align:right;">Total Distance (NM):</th>
             <th><?= output(number_format($sum_distance, 5)) ?> </th>
         </tr>
     </tfoot>
@@ -67,13 +70,15 @@
 
         "ordering": false,
 
-        "info": false,
+        "info": true,
 
         "autoWidth": false,
 
         "responsive": true,
 
-        "pageLength": 7,
+        "scrollX": true,
+
+        "pageLength": 5,
 
         language: {
 
@@ -101,6 +106,11 @@
 
         },
 
+        buttons: [
+            'excelHtml5' // This adds the Excel export button
+        ],
+
+        dom: 'Bfrtip' // This is CRUCIAL for buttons to render
 
     });
 </script>

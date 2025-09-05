@@ -36,6 +36,12 @@
               </div>
               <div class="col-sm-6 col-md-4">
                 <div class="form-group">
+                  <label class="form-label">Abbrevate Name</label>
+                  <input type="text" name="v_manufactured_by" value="<?php echo (isset($vehicledetails)) ? $vehicledetails[0]['v_manufactured_by'] : '' ?>" class="form-control" placeholder="Abbrevate Name">
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <div class="form-group">
                   <label class="form-label">IMO</label>
                   <input type="text" name="v_model" value="<?php echo (isset($vehicledetails)) ? $vehicledetails[0]['v_model'] : '' ?>" class="form-control" placeholder="IMO">
                 </div>
@@ -50,12 +56,6 @@
                 <div class="form-group">
                   <label class="form-label">Call sign</label>
                   <input type="text" name="v_engine_no" value="<?php echo (isset($vehicledetails)) ? $vehicledetails[0]['v_engine_no'] : '' ?>" class="form-control" placeholder="Call sign">
-                </div>
-              </div>
-              <div class="col-sm-6 col-md-4">
-                <div class="form-group">
-                  <label class="form-label">Manufactured By</label>
-                  <input type="text" name="v_manufactured_by" value="<?php echo (isset($vehicledetails)) ? $vehicledetails[0]['v_manufactured_by'] : '' ?>" class="form-control" placeholder="Manufactured By">
                 </div>
               </div>
             </div>

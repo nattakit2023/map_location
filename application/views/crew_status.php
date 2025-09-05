@@ -90,7 +90,8 @@
                                             <td><?php echo $fms_data['v_name']; ?></td>
                                             <td><?php echo $fms_data['datetime']; ?></td>
                                             <td>
-                                                <a href="<?php echo base_url($fms_data['file_path']); ?>" target="_blank"><i class="fas fa-eye"></i></a>
+                                                <a style="color: green;" href="<?php echo base_url($fms_data['file_path']); ?>" target="_blank"><i class="fas fa-eye"></i></a>
+                                                <a style="color: red;" href="#" onclick="deleteCrew(<?= $fms_data['id'] ?>)"><i class="fas fa-trash"></i></a>
                                             </td>
                                         </tr>
                                         </tr>
@@ -137,4 +138,19 @@
             }
         });
     })
+
+    function deleteCrew(crew_id) {
+        if (confirm('Are you sure you want to delete this Crew report?')) {
+            $.ajax({
+                url: '<?= base_url(); ?>reports/delete_crew',
+                type: 'POST',
+                data: {
+                    id: crew_id
+                },
+                success: function(response) {
+                    location.reload();
+                }
+            });
+        }
+    }
 </script>

@@ -17,6 +17,9 @@ if (is_numeric($seg)) {
 <script src="<?= base_url(); ?>assets/plugins/datatables/jquery.dataTables.js"></script>
 <script src="<?= base_url(); ?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <link rel="stylesheet" href="<?= base_url(); ?>assets/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/scroller/2.2.0/css/scroller.dataTables.min.css">
+<script src="https://cdn.datatables.net/scroller/2.2.0/js/dataTables.scroller.min.js"></script>
 <script src="<?= base_url(); ?>assets/plugins/moment/moment.min.js"></script>
 <script src="<?= base_url(); ?>assets/plugins/daterangepicker/daterangepicker.js"></script>
 <script src="<?php echo base_url(); ?>assets/jscolor.js"></script>

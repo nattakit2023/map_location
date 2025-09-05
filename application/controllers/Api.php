@@ -245,8 +245,9 @@ class Api extends REST_Controller
         $data = $query->result_array();
 
         foreach ($data as &$item) {
-            $this->db->select('*');
-            $this->db->from('data_from_sc');
+            $this->db->select('dfs.*, v.v_color, v.v_manufactured_by');
+            $this->db->from('data_from_sc dfs');
+            $this->db->join('vehicles v', 'dfs.esnName = v.v_name', 'left');
             $this->db->where('esnName', $item['esnName']);
             $this->db->order_by('id', 'DESC');
             $this->db->limit(2);

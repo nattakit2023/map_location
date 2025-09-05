@@ -95,7 +95,8 @@
                                             <td><?php echo $fms_data['v_name']; ?></td>
                                             <td><?php echo $fms_data['datetime']; ?></td>
                                             <td>
-                                                <a href="<?php echo base_url($fms_data['file_path']); ?>" target="_blank"><i class="fas fa-eye"></i></a>
+                                                <a style="color: green;" href="<?php echo base_url($fms_data['file_path']); ?>" target="_blank"><i class="fas fa-eye"></i></a>
+                                                <a style="color: red;" href="#" onclick="deleteSafety(<?= $fms_data['id'] ?>)"><i class="fas fa-trash"></i></a>
                                             </td>
                                         </tr>
                                         </tr>
@@ -117,7 +118,8 @@
                                         <tr>
                                             <td><?php echo $safety_data['datetime']; ?></td>
                                             <td>
-                                                <a href="<?php echo base_url($safety_data['file_path']); ?>" target="_blank"><i class="fas fa-eye"></i></a>
+                                                <a style="color: green;" href="<?php echo base_url($safety_data['file_path']); ?>" target="_blank"><i class="fas fa-eye"></i></a>
+                                                <a style="color: red;" href="#" onclick="deleteSafetyAll(<?= $safety_data['id'] ?>)"><i class="fas fa-trash"></i></a>
                                             </td>
                                         </tr>
                                 <?php
@@ -195,4 +197,34 @@
         let check = $(this).prop('checked');
         $('#vehicle').prop('disabled', check);
     })
+
+    function deleteSafety(safety_id) {
+        if (confirm('Are you sure you want to delete this Safety report?')) {
+            $.ajax({
+                url: '<?= base_url(); ?>reports/delete_safety',
+                type: 'POST',
+                data: {
+                    id: safety_id
+                },
+                success: function(response) {
+                    location.reload();
+                }
+            });
+        }
+    }
+
+    function deleteSafetyAll(safety_id) {
+        if (confirm('Are you sure you want to delete this Safety Overview report?')) {
+            $.ajax({
+                url: '<?= base_url(); ?>reports/delete_pms_all',
+                type: 'POST',
+                data: {
+                    id: safety_id
+                },
+                success: function(response) {
+                    location.reload();
+                }
+            });
+        }
+    }
 </script>
