@@ -51,6 +51,7 @@ if (!isset($this->session->userdata['session_data'])) {
     <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
     <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
 
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
     <style>
         :where(#map-container) {
             z-index: 0;

@@ -510,4 +510,62 @@ class Reports extends CI_Controller
 			echo json_encode(['status' => 'error', 'message' => 'Failed to delete Safety Report.']);
 		}
 	}
+
+	public function performance()
+	{
+		$data['fms'] = $this->fuel_model->get_performance();
+		$this->template->template_render('performance', $data);
+	}
+
+	public function add_performance()
+	{
+		$files = $_FILES['files'];
+
+		foreach ($files['name'] as $index => $name) {
+			$filename = $name;
+			$fileTmp = $files['tmp_name'][$index];
+			$filePath = "assets/uploads/report/performance/" . $name;
+			$fileType = str_split($name, strrpos($name, '.') + 1)[1];
+
+			move_uploaded_file($fileTmp, $filePath);
+			chmod("$filePath", 0755);
+
+			$this->fuel_model->add_performance(["file_name" => $filename, "file_tmp" => $fileTmp, "file_path" => $filePath, "file_type" => $fileType]);
+		}
+
+		$this->session->set_flashdata('successmessage', 'New Performance Report added successfully..');
+	}
+
+	public function delete_performance()
+	{
+		$id = $this->input->post('id');
+		if (empty($id)) {
+			echo json_encode(['status' => 'error', 'message' => 'Invalid Performance Report ID.']);
+			return;
+		}
+
+		// delete file performance
+		$this->db->select('file_path');
+		$this->db->from('performance');
+		$this->db->where('id', $id);
+		$query = $this->db->get();
+		$fms_data = $query->row_array();
+
+		if ($fms_data) {
+			$file_path = $fms_data['file_path'];
+
+			if (file_exists($file_path)) {
+				unlink($file_path);
+			}
+		}
+
+		$this->db->where('id', $id);
+		$this->db->delete('performance');
+
+		if ($this->db->affected_rows() > 0) {
+			echo json_encode(['status' => 'success', 'message' => 'Performance Report deleted successfully.']);
+		} else {
+			echo json_encode(['status' => 'error', 'message' => 'Failed to delete Performance Report.']);
+		}
+	}
 }

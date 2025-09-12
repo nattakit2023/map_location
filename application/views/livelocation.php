@@ -42,6 +42,17 @@ if ($this->uri->segment(3)) {
                         </div>
                     </div>
                 </div>
+                <div class="card rounded-0" id="card_safety" hidden>
+                    <div class="card-header bg-light rounded-0">
+                        <h3>
+                            Safety Report
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="report_safety" style="display: flex; justify-content: center;">
+                        </div>
+                    </div>
+                </div>
                 <div class="card rounded-0" id="card_crew" hidden>
                     <div class="card-header bg-light rounded-0">
                         <h3>
@@ -86,17 +97,6 @@ if ($this->uri->segment(3)) {
                         </div>
                     </div>
                 </div>
-                <div class="card rounded-0" id="card_safety" hidden>
-                    <div class="card-header bg-light rounded-0">
-                        <h3>
-                            Safety Report
-                        </h3>
-                    </div>
-                    <div class="card-body">
-                        <div id="report_safety" style="display: flex; justify-content: center;">
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -105,7 +105,13 @@ if ($this->uri->segment(3)) {
 </div>
 </div>
 <script src="<?= base_url(); ?>assets/dist/jsPlugin-1.2.0.min.js"></script>
-
+<style>
+    .small-tooltip {
+        font-size: 8px;
+        /* Adjust as needed */
+        font-weight: normal;
+    }
+</style>
 <script>
     var map = L.map('map').setView([13.406105629697434, 100.91933242591432], 6); // Samrong Nuea coordinates and zoom level
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
@@ -264,8 +270,8 @@ if ($this->uri->segment(3)) {
         var myLogoIcon = L.icon({
             // iconUrl: 'data:image/svg+xml;utf8,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%20standalone%3D%22no%22%3F%3E%0A%20%20%20%20%20%20%20%20%3C!DOCTYPE%20svg%20PUBLIC%20%22-%2F%2FW3C%2F%2FDTD%20SVG%201.1%2F%2FEN%22%20%22http%3A%2F%2Fwww.w3.org%2FGraphics%2FSVG%2F1.1%2FDTD%2Fsvg11.dtd%22%3E%0A%20%20%20%20%20%20%20%20%3Csvg%20width%3D%22100%25%22%20height%3D%22100%25%22%20viewBox%3D%220%200%2014%2014%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20xml%3Aspace%3D%22preserve%22%20style%3D%22fill-rule%3Aevenodd%3Bclip-rule%3Aevenodd%3Bstroke-linejoin%3Around%3Bstroke-miterlimit%3A1.41421%3B%22%3E%0A%20%20%20%20%20%20%20%20%3Cg%20transform%3D%22rotate(243%2C%207%2C%207)%22%3E%20%3C!--%20Add%20rotation%20here%20--%3E%0A%20%20%20%20%20%20%20%20%3Cpath%20d%3D%22M4.784%2C13.635c0%2C0%20-0.106%2C-2.924%200.006%2C-4.379c0.115%2C-1.502%200.318%2C-3.151%200.686%2C-4.632c0.163%2C-0.654%200.45%2C-1.623%200.755%2C-2.44c0.202%2C-0.54%200.407%2C-1.021%200.554%2C-1.352c0.038%2C-0.085%200.122%2C-0.139%200.215%2C-0.139c0.092%2C0%200.176%2C0.054%200.214%2C0.139c0.151%2C0.342%200.361%2C0.835%200.555%2C1.352c0.305%2C0.817%200.592%2C1.786%200.755%2C2.44c0.368%2C1.481%200.571%2C3.13%200.686%2C4.632c0.112%2C1.455%200.006%2C4.379%200.006%2C4.379l-4.432%2C0Z%22%20style%3D%22fill%3Argb(0%2C46%2C252)%3B%22%2F%3E%3Cpath%20d%3D%22M5.481%2C12.731c0%2C0%20-0.073%2C-3.048%200.003%2C-4.22c0.06%2C-0.909%200.886%2C-3.522%201.293%2C-4.764c0.03%2C-0.098%200.121%2C-0.165%200.223%2C-0.165c0.103%2C0%200.193%2C0.067%200.224%2C0.164c0.406%2C1.243%201.232%2C3.856%201.292%2C4.765c0.076%2C1.172%200.003%2C4.22%200.003%2C4.22l-3.038%2C0Z%22%20style%3D%22fill%3A%23ffffff%3Bfill-opacity%3A0.846008%3B%22%2F%3E%0A%20%20%20%20%20%20%20%20%3C%2Fg%3E%20%20%3C%2Fsvg%3E', // Replace with your logo URL
             iconUrl: svgDataUri,
-            iconSize: [32, 32],
-            iconAnchor: [16, 32],
+            iconSize: [64, 64],
+            iconAnchor: [32, 64],
             popupAnchor: [0, -32]
         });
 
@@ -383,6 +389,7 @@ if ($this->uri->segment(3)) {
                     permanent: true, // Make the tooltip always visible
                     direction: 'bottom', // Adjust direction as needed
                     offset: L.point(0, -10), // Adjust offset as needed
+                    className: 'small-tooltip'
                 }).bindPopup(`<table>
                                 <tr>
                                     <td>ESN [${esn}] (${esnName})</td>

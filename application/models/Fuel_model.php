@@ -123,4 +123,16 @@ class Fuel_model extends CI_Model
 
 		return $this->db->get()->result_array();
 	}
+
+	public function get_performance()
+	{
+		$this->db->select('*')->from('performance')->order_by('timestamp', 'desc');
+
+		return $this->db->get()->result_array();
+	}
+
+	public function add_performance($data)
+	{
+		return	$this->db->insert('performance', $data);
+	}
 }

@@ -265,7 +265,7 @@
                <div class="card-header">
                   <div class="d-flex justify-content-between align-items-center">
                      <h5>Map Windys</h5>
-                     <button type="button" class="btn btn-primary" onclick="ShowSafety()">Safety Overview</button>
+                     <button type="button" class="btn btn-primary" onclick="ShowSafety()">Performance Overview</button>
                   </div>
                </div>
                <div class="card-body">
@@ -283,15 +283,27 @@
                </div>
             </div>
          </div>
-         <div id="Safety" class="col-md-12" style="height: 650px;" hidden>
+         <div id="Safety" class="col-md-12" hidden>
             <div class="card rouded-0">
                <div class="card-header">
                   <div class="d-flex justify-content-between align-items-center">
-                     <h5>Safety Overview</h5>
+                     <h5>Performance Overview</h5>
                      <button type="button" class="btn btn-primary" onclick="ShowMap()">Map Windy</button>
                   </div>
                </div>
                <div class="card-body" id="safety_overview">
+                  <div class="w3-display-container" style="height: 650px;">
+                     <?php foreach ($image as $key => $images): ?>
+                        <img class="mySlides" src="<?= base_url() . $images['file_path']; ?>" style="width:1602.5px;height: 650px;">
+                     <?php endforeach; ?>
+                     <div class="w3-center w3-container w3-section w3-large w3-text-white w3-display-bottommiddle" style="width:100%">
+                        <div class="w3-left w3-hover-text-khaki" onclick="plusDivs(-1)">&#10094;</div>
+                        <div class="w3-right w3-hover-text-khaki" onclick="plusDivs(1)">&#10095;</div>
+                        <?php foreach ($image as $key => $images): ?>
+                           <span class="w3-badge demo w3-border w3-transparent w3-hover-white" onclick="currentDiv(<?= $key + 1; ?>)"></span>
+                        <?php endforeach; ?>
+                     </div>
+                  </div>
                </div>
             </div>
          </div>
@@ -376,8 +388,32 @@
   })
 
 </script> <?php } ?> -->
+<style>
+   .mySlides {
+      display: none
+   }
+
+   .w3-left,
+   .w3-right,
+   .w3-badge {
+      cursor: pointer
+   }
+
+   .w3-badge {
+      height: 13px;
+      width: 13px;
+      padding: 0
+   }
+
+   .small-tooltip {
+      font-size: 8px;
+      /* Adjust as needed */
+      font-weight: normal;
+   }
+</style>
 
 <script>
+   var slideIndex = 1;
    // Windy API key
    const WINDY_API_KEY = "w4MQrAJ7s06EGyMTtzSbPFRuw5ORcJyv";
 
@@ -432,8 +468,38 @@
    }
 
    $(document).ready(function() {
-      get_safety();
+
    });
+
+   showDivs(slideIndex);
+
+   function plusDivs(n) {
+      showDivs(slideIndex += n);
+   }
+
+   function currentDiv(n) {
+      showDivs(slideIndex = n);
+   }
+
+   function showDivs(n) {
+      var i;
+      var x = document.getElementsByClassName("mySlides");
+      var dots = document.getElementsByClassName("demo");
+      if (n > x.length) {
+         slideIndex = 1
+      }
+      if (n < 1) {
+         slideIndex = x.length
+      }
+      for (i = 0; i < x.length; i++) {
+         x[i].style.display = "none";
+      }
+      for (i = 0; i < dots.length; i++) {
+         dots[i].className = dots[i].className.replace(" w3-white", "");
+      }
+      x[slideIndex - 1].style.display = "block";
+      dots[slideIndex - 1].className += " w3-white";
+   }
 
    // Initialize Windy Map
    windyInit({
@@ -503,8 +569,8 @@
             var myLogoIcon = L.icon({
                // iconUrl: 'data:image/svg+xml;utf8,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%20standalone%3D%22no%22%3F%3E%0A%20%20%20%20%20%20%20%20%3C!DOCTYPE%20svg%20PUBLIC%20%22-%2F%2FW3C%2F%2FDTD%20SVG%201.1%2F%2FEN%22%20%22http%3A%2F%2Fwww.w3.org%2FGraphics%2FSVG%2F1.1%2FDTD%2Fsvg11.dtd%22%3E%0A%20%20%20%20%20%20%20%20%3Csvg%20width%3D%22100%25%22%20height%3D%22100%25%22%20viewBox%3D%220%200%2014%2014%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20xml%3Aspace%3D%22preserve%22%20style%3D%22fill-rule%3Aevenodd%3Bclip-rule%3Aevenodd%3Bstroke-linejoin%3Around%3Bstroke-miterlimit%3A1.41421%3B%22%3E%0A%20%20%20%20%20%20%20%20%3Cg%20transform%3D%22rotate(243%2C%207%2C%207)%22%3E%20%3C!--%20Add%20rotation%20here%20--%3E%0A%20%20%20%20%20%20%20%20%3Cpath%20d%3D%22M4.784%2C13.635c0%2C0%20-0.106%2C-2.924%200.006%2C-4.379c0.115%2C-1.502%200.318%2C-3.151%200.686%2C-4.632c0.163%2C-0.654%200.45%2C-1.623%200.755%2C-2.44c0.202%2C-0.54%200.407%2C-1.021%200.554%2C-1.352c0.038%2C-0.085%200.122%2C-0.139%200.215%2C-0.139c0.092%2C0%200.176%2C0.054%200.214%2C0.139c0.151%2C0.342%200.361%2C0.835%200.555%2C1.352c0.305%2C0.817%200.592%2C1.786%200.755%2C2.44c0.368%2C1.481%200.571%2C3.13%200.686%2C4.632c0.112%2C1.455%200.006%2C4.379%200.006%2C4.379l-4.432%2C0Z%22%20style%3D%22fill%3Argb(0%2C46%2C252)%3B%22%2F%3E%3Cpath%20d%3D%22M5.481%2C12.731c0%2C0%20-0.073%2C-3.048%200.003%2C-4.22c0.06%2C-0.909%200.886%2C-3.522%201.293%2C-4.764c0.03%2C-0.098%200.121%2C-0.165%200.223%2C-0.165c0.103%2C0%200.193%2C0.067%200.224%2C0.164c0.406%2C1.243%201.232%2C3.856%201.292%2C4.765c0.076%2C1.172%200.003%2C4.22%200.003%2C4.22l-3.038%2C0Z%22%20style%3D%22fill%3A%23ffffff%3Bfill-opacity%3A0.846008%3B%22%2F%3E%0A%20%20%20%20%20%20%20%20%3C%2Fg%3E%20%20%3C%2Fsvg%3E', // Replace with your logo URL
                iconUrl: svgDataUri,
-               iconSize: [32, 32],
-               iconAnchor: [16, 32],
+               iconSize: [64, 64],
+               iconAnchor: [32, 64],
                popupAnchor: [0, -32]
             });
 
@@ -555,7 +621,7 @@
                      permanent: true, // Make the tooltip always visible
                      direction: 'bottom', // Adjust direction as needed
                      offset: L.point(0, -10), // Adjust offset as needed
-                     className: 'my-permanent-tooltip' // Optional: Add a custom CSS class
+                     className: 'small-tooltip'
                   }).bindPopup(`<table>
                                 <tr>
                                     <td>ESN [${esn}] (${esnName})</td>

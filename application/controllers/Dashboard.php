@@ -21,6 +21,8 @@ class Dashboard extends CI_Controller
         $data['todayreminder'] = $this->dashboard_model->get_todayreminder();
         $data['dashboard'] = $this->dashboard_model->getdashboard_info();
         $data['vechiclelist_from_sc'] = $this->db->query("SELECT * FROM data_from_sc group by esnName desc")->result_array();
+        $data['image'] = $this->db->query("SELECT * FROM performance where file_type != 'pdf' order by id desc")->result_array();
+        // $data['pdf'] = $this->db->query(`SELECT * FROM performance where file_type = "pdf" order by id desc limit 1`)->result_array();
         $data['vechicle_currentlocation'] = $this->dashboard_model->get_vechicle_currentlocation();
         $data['vechicle_status'] = $this->dashboard_model->getvechicle_status();
         $returndata = array();

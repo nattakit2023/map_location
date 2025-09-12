@@ -216,6 +216,12 @@
                         <p>Ship Certificate</p>
                      </a>
                   </li>
+                  <li class="nav-item">
+                     <a href="<?= base_url(); ?>reports/performance" class="nav-link <?php echo activate_menu('performance'); ?>">
+                        <i class="fas fa-cosg icon nav-icon"></i>
+                        <p>Performance</p>
+                     </a>
+                  </li>
                </ul>
             </li>
             <?php if (userpermission('lr_settings')) { ?>
